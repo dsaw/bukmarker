@@ -22,10 +22,38 @@ def load_chrome_bookmarks(json_obj):
     :return:
     '''
 
-    root = json_obj["roots"]
+    data = json_obj["roots"]
+    return data
+
+
+def get_folder_bookmark_list(json_folder):
+    '''
+
+
+    '''
+
+    if json_folder["type"] != "folder":
+        raise Exception(" Json object not of type folder")
+    # ignores folders
+    child_bookmark_list = [elem for elem in json_folder["children"] if elem["type"] == "url"]
+    print(child_bookmark_list)
+    return child_bookmark_list
+
+
+
 
 
 
 
 if __name__=="__main__":
-    read_json_bookmarks()
+    chrome_bm = load_chrome_bookmarks(read_json_bookmarks())
+
+    # iterate over json
+    for bkey,bval in chrome_bm.items():
+
+        if chrome_bm[bkey]["type"] == "folder":
+            print("Bookmark Folder - {0}".format(bkey))
+            for bm in get_folder_bookmark_list(bval):
+                print("{name} : {url} ".format(name=bm.get("name"), url=bm.get("url")))
+
+
