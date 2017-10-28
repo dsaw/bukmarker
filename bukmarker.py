@@ -1,5 +1,10 @@
 
 import json
+import sqlite3
+
+__version__ = '0.0.1'
+__name__ = 'Devesh Sawant @dsaw'
+
 
 ## Bukmarker - cmd bookmarking application - integrates with browser bookmarks in one place.
 
