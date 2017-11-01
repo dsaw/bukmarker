@@ -15,8 +15,18 @@ logger = logging.getLogger()
 
 # Bukmarker - cmd bookmarking application - integrates with browser bookmarks in one place.
 
+class Bukmarker():
+
+    pass
+
+
 
 # filename parameter is Chrome bookmarks file in Windows
+
+
+
+
+
 
 def read_json_bookmarks(filename="C:\\Users\Devesh\AppData\Local\Google\Chrome\\User Data\Default\Bookmarks"):
 
@@ -96,11 +106,5 @@ if __name__ == "__main__":
 
     # test traverse function
 
-    for bkey,bval in chrome_bm.items():
 
-        if bval["type"] == "folder":
-            print("Bookmark Folder - {0}".format(bkey))
-
-            for bm in traverse_bm_folder(bval["children"], bval["name"]):
-                print("{name} : {url} ".format(name=bm.get("name"), url=bm.get("url")))
 

@@ -1,4 +1,4 @@
-
+# Playing with code related to the project
 
 import os
 
@@ -21,5 +21,17 @@ print(env.get('APPDATA'))
 
 print(os.path.join(env.get('APPDATA'),'dev'))
 
+def f():
+    yield 3
+    yield 5
+    raise StopIteration
 
-print("devesh" is 'devesh')
+
+
+def h():
+    g = []
+    g.extend(f())
+    print(g)
+    print(len(g))
+
+h()
