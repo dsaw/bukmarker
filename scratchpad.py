@@ -1,6 +1,6 @@
 # Playing with code related to the project
 
-import os
+import os,requests
 
 
 x = 0
@@ -35,3 +35,4 @@ def h():
     print(len(g))
 
 h()
+r = requests.post('http://httpbin.org/post', data = {'key':'value'})

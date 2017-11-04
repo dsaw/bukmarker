@@ -17,19 +17,13 @@ logger = logging.getLogger()
 
 class Bukmarker():
 
-    pass
-
-
+    def __init__(self,conn,cursor,dbfile=None):
+        self.dbfile = dbfile
+        self.conn = conn
+        self.cursor = cursor
 
 # filename parameter is Chrome bookmarks file in Windows
-
-
-
-
-
-
 def read_json_bookmarks(filename="C:\\Users\Devesh\AppData\Local\Google\Chrome\\User Data\Default\Bookmarks"):
-
     with open(filename) as f:
         bm_json = json.load(f)
 
@@ -91,6 +85,15 @@ def traverse_bm_folder(child_sublist, parent_folder):
             logging.debug("Folder traversed : {0}".format(item['name']))
         elif item['type'] == 'url':
             yield item
+
+# firefox bookmarks
+def read_sqlite_bookmarks(filename="C:\Users\Devesh\AppData\Roaming\Mozilla\Firefox\Profiles\x94qotzr.default-1509035816333\places.sqlite"):
+
+    db = sqlite3.connect(filename)
+    cursor = db.cursor()
+    #cursor.execute('''
+       # SHOW TABLES
+    #''')
 
 
 if __name__ == "__main__":
