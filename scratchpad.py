@@ -1,8 +1,7 @@
 # Playing with code related to the project
 
-<<<<<<< Updated upstream
-import os
-=======
+#<<<<<<< Updated upstream
+#import os
 import os,requests,sqlite3
 
 # open firefox db file
@@ -10,19 +9,36 @@ import os,requests,sqlite3
 conn = sqlite3.connect("C:\\Users\\Devesh\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\x94qotzr.default-1509035816333\\places.sqlite")
 #print(conn)
 c = conn.cursor()
-c.execute(".databases")
-for row in c:
-    print(row)
->>>>>>> Stashed changes
+
+# parent folder rows
+# foreign key is null for folders
+folder_bm = {}
+c.execute("SELECT DISTINCT id,title FROM 'moz_bookmarks' WHERE type=2")
+for row in c.fetchall():
+    folder_bm[row[0]] = row[1]
+#print(folder_bm)
 
 
-x = 0
-if x > 0:
+c.execute("SELECT DISTINCT fk,parent,title FROM 'moz_bookmarks' WHERE type=1")
+# loaded bookmark dict
+bm = {}
 
-    raise Exception()
-else:
-    print(None)
- #   raise WindowsError("x is  0")
+
+for row in c.fetchall():
+    res = c.execute("SELECT url FROM 'moz_places' where id={}".format(row[0]))
+    res = res.fetchone()
+    bm[res[0]] = { "title":row[2], "tags":[folder_bm[row[1]]] }
+
+print(bm)
+
+
+
+
+
+
+#>>>>>>> Stashed changes
+
+
 
 
 

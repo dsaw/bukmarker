@@ -4,7 +4,9 @@ import unittest
 import json
 import sqlite3
 
-from bukmarker import load_chrome_bookmarks,read_json_bookmarks,traverse_bm_folder
+from bukmarker import load_chrome_bookmarks,read_json_bookmarks,read_firefox_bookmarks_db, traverse_bm_folder
+# TODO: need to write better tests!
+
 
 class TestImports(unittest.TestCase):
 
@@ -30,6 +32,17 @@ class TestImports(unittest.TestCase):
                     print("{name} : {url} ".format(name=bm.get("name"), url=bm.get("url")))
 
         self.assertGreater(len(bm_list),0)
+
+
+    def test_firefox_import(self):
+        """
+        Test case for importing bookmarks from firefox places.sqlite file
+        :return:
+        """
+
+        bm = read_firefox_bookmarks_db()
+        self.assertGreater(len(bm), 0)
+
 
 #temporary
 if __name__ == "main":

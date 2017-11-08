@@ -20,13 +20,39 @@ class Bukmarker():
     pass
 
 
+def read_firefox_bookmarks_db(dbfile="C:\\Users\\Devesh\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\x94qotzr.default-1509035816333\\places.sqlite"):
+    """
+    Reads bookmark places.sqlite file and stores it as a bookmark dictionary
+    :param dbfile:
+    :return: dict: key is url, value is another dict
+    """
+
+    conn = sqlite3.connect(dbfile)
+    # print(conn)
+    c = conn.cursor()
+    # parent folder rows
+    # foreign key is null for folders
+    folder_bm = {}
+    c.execute("SELECT DISTINCT id,title FROM 'moz_bookmarks' WHERE type=2")
+    for row in c.fetchall():
+        folder_bm[row[0]] = row[1]
+    # print(folder_bm)
+
+
+    c.execute("SELECT DISTINCT fk,parent,title FROM 'moz_bookmarks' WHERE type=1")
+    # loaded bookmark dict
+    bm = {}
+
+    for row in c.fetchall():
+        res = c.execute("SELECT url FROM 'moz_places' where id={}".format(row[0]))
+        res = res.fetchone()
+        bm[res[0]] = {"title": row[2], "tags": [folder_bm[row[1]]]}   # parent folder title as tag
+
+    print(bm)
+    return bm
+
 
 # filename parameter is Chrome bookmarks file in Windows
-
-
-
-
-
 
 def read_json_bookmarks(filename="C:\\Users\Devesh\AppData\Local\Google\Chrome\\User Data\Default\Bookmarks"):
 
