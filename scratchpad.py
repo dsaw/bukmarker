@@ -1,6 +1,19 @@
 # Playing with code related to the project
 
+<<<<<<< Updated upstream
 import os
+=======
+import os,requests,sqlite3
+
+# open firefox db file
+
+conn = sqlite3.connect("C:\\Users\\Devesh\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\x94qotzr.default-1509035816333\\places.sqlite")
+#print(conn)
+c = conn.cursor()
+c.execute(".databases")
+for row in c:
+    print(row)
+>>>>>>> Stashed changes
 
 
 x = 0
