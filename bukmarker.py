@@ -11,13 +11,16 @@ __name__ = 'Devesh Sawant @dsaw'
 
 # logging setup
 logging.basicConfig(filename='bukmarker.log',level=logging.DEBUG)
-logger = logging.getLogger()
+
 
 # Bukmarker - cmd bookmarking application - integrates with browser bookmarks in one place.
 
-class Bukmarker():
+class BukmarkerDB():
 
-    pass
+    def __init__(self,conn,cursor,dbfile=None):
+        self.conn = conn
+        self.cursor = cursor
+        self.dbfile = dbfile
 
 
 def read_firefox_bookmarks_db(dbfile="C:\\Users\\Devesh\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\x94qotzr.default-1509035816333\\places.sqlite"):
@@ -37,7 +40,6 @@ def read_firefox_bookmarks_db(dbfile="C:\\Users\\Devesh\\AppData\\Roaming\\Mozil
     for row in c.fetchall():
         folder_bm[row[0]] = row[1]
     # print(folder_bm)
-
 
     c.execute("SELECT DISTINCT fk,parent,title FROM 'moz_bookmarks' WHERE type=1")
     # loaded bookmark dict
@@ -108,6 +110,8 @@ def traverse_bm_folder(child_sublist, parent_folder):
     :param parent_folder: str
     :return:
     """
+
+
     if not isinstance(child_sublist,list):
         raise Exception(" child_sublist not a list")
     # recursive yield of url

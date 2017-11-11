@@ -2,11 +2,14 @@
 
 #<<<<<<< Updated upstream
 #import os
-import os,requests,sqlite3
+import os,requests,sqlite3,logging
 
+logging.basicConfig(filename='bukmarker.log', level=logging.DEBUG)
 # open firefox db file
 
-conn = sqlite3.connect("C:\\Users\\Devesh\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\x94qotzr.default-1509035816333\\places.sqlite")
+conn = sqlite3.connect("C:\\Users\\Devesh\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\x94qotzr.default-1509035816333\\places.sqlite", \
+                       detect_types=sqlite3.PARSE_COLNAMES|sqlite3.PARSE_DECLTYPES)
+conn.row_factory = sqlite3.Row
 #print(conn)
 c = conn.cursor()
 
@@ -18,8 +21,7 @@ for row in c.fetchall():
     folder_bm[row[0]] = row[1]
 #print(folder_bm)
 
-
-c.execute("SELECT DISTINCT fk,parent,title FROM 'moz_bookmarks' WHERE type=1")
+c.execute("SELECT DISTINCT fk,parent,title,dateAdded FROM 'moz_bookmarks' WHERE type=1")
 # loaded bookmark dict
 bm = {}
 
@@ -27,9 +29,11 @@ bm = {}
 for row in c.fetchall():
     res = c.execute("SELECT url FROM 'moz_places' where id={}".format(row[0]))
     res = res.fetchone()
-    bm[res[0]] = { "title":row[2], "tags":[folder_bm[row[1]]] }
+    bm[res[0]] = { "title":row[2], "tags":[folder_bm[row[1]]], "date_added":row[3] }
+    logging.debug(" {0} ".format(row["dateAdded"]))
 
-print(bm)
+#print(bm)
+# fetch date_added from db
 
 
 

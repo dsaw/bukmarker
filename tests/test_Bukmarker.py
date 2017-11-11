@@ -1,6 +1,6 @@
 
 
-import unittest
+import unittest,logging
 import json
 import sqlite3
 
