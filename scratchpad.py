@@ -35,23 +35,12 @@ for row in c.fetchall():
 #print(bm)
 # fetch date_added from db
 
-
-
-
-
-
 #>>>>>>> Stashed changes
-
-
-
-
-
+logfile_path = os.path.abspath(os.path.dirname(os.path.__file__))
+logfilename = os.path.join(logfile_path, "bukmarker.log")
+print(logfile_path)
 print(os.getcwd())
 env = os.environ
-
-print(env.get('APPDATA'))
-
-
 print(os.path.join(env.get('APPDATA'),'dev'))
 
 def f():

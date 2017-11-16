@@ -1,17 +1,23 @@
 
 
-import unittest,logging
+import unittest,logging,os
+#logging.basicConfig(filename='bukmarker.log', level=logging.DEBUG)
 import json
 import sqlite3
 
-from bukmarker import load_chrome_bookmarks,read_json_bookmarks,read_firefox_bookmarks_db, traverse_bm_folder
+import bukmarker
 # TODO: need to write better tests!
 
 
 class TestImports(unittest.TestCase):
 
     def setUp(self):
-        self.chrome_bm = load_chrome_bookmarks(read_json_bookmarks())
+        # relative logfile path
+        self.bukmarker = bukmarker.BukmarkerDB("conn","cursor")
+        logfile_path = os.path.abspath(os.path.dirname(os.path.__file__))
+        logfilename = os.path.join(logfile_path, "..\bukmarker.log")
+        self.chrome_bm = self.bukmarker.load_chrome_bookmarks(self.bukmarker.read_json_bookmarks())
+        logging.basicConfig(filename=logfilename,filemode="w", level=logging.BASIC_FORMAT)
 
     def tearDown(self):
         pass
@@ -24,15 +30,13 @@ class TestImports(unittest.TestCase):
 
         bm_list = list()
         for bkey, bval in self.chrome_bm.items():
-
             if bval["type"] == "folder":
-                print("Bookmark Folder - {0}".format(bkey))
-                bm_list.extend(traverse_bm_folder(bval["children"], bval["name"]))
-                for bm in traverse_bm_folder(bval["children"], bval["name"]):
-                    print("{name} : {url} ".format(name=bm.get("name"), url=bm.get("url")))
+                logging.info("Bookmark Folder - {0}".format(bkey))
+                bm_list.extend(self.bukmarker.traverse_bm_folder(bval["children"], bval["name"]))
+                for bm in self.bukmarker.traverse_bm_folder(bval["children"], bval["name"]):
+                    logging.debug("{name} : {url} ".format(name=bm.get("name"), url=bm.get("url")))
 
         self.assertGreater(len(bm_list),0)
-
 
     def test_firefox_import(self):
         """
@@ -40,11 +44,12 @@ class TestImports(unittest.TestCase):
         :return:
         """
 
-        bm = read_firefox_bookmarks_db()
+        bm = self.bukmarker.read_firefox_bookmarks_db()
         self.assertGreater(len(bm), 0)
 
 
 #temporary
 if __name__ == "main":
+
     unittest.main(verbosity=2)
 
