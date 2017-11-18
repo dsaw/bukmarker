@@ -1,7 +1,7 @@
 
 import json
 import sqlite3
-import logging
+import logging,os,platform
 # logging setup
 logging.basicConfig(filename='bukmarker.log',level=logging.DEBUG)
 
@@ -17,6 +17,27 @@ class BukmarkerDB():
         self.conn = conn
         self.cursor = cursor
         self.dbfile = dbfile
+
+    @staticmethod
+    def get_default_dbdir():
+        '''
+            if system is Windows, returns %APPDATA%
+            else returns $HOME, if it exists
+            else returns current directory
+
+        :return:
+         str : path to database file
+        '''
+
+        dbfile = os.environ.get("HOME")
+        if dbfile is None:
+            if platform.system() == "Window":
+                dbfile = os.environ.get("APPDATA")
+            else:
+                dbfile = os.path.abspath(".")
+
+        dbfile = os.path.join(dbfile,"buku")
+        return dbfile
 
     def read_firefox_bookmarks_db(self, dbfile="C:\\Users\\Devesh\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\x94qotzr.default-1509035816333\\places.sqlite"):
         """
@@ -91,7 +112,6 @@ class BukmarkerDB():
         return child_bookmark_list
 
     # recursive - need to test!
-
     def traverse_bm_folder(self, child_sublist, parent_folder):
         """
         Generator function
@@ -109,8 +129,6 @@ class BukmarkerDB():
                 logging.debug("Folder traversed : {0}".format(item['name']))
             elif item['type'] == 'url':
                 yield item
-
-
 
 if __name__ == "__main__":
     #chrome_bm = load_chrome_bookmarks(read_json_bookmarks())

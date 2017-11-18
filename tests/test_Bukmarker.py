@@ -47,6 +47,14 @@ class TestImports(unittest.TestCase):
         bm = self.bukmarker.read_firefox_bookmarks_db()
         self.assertGreater(len(bm), 0)
 
+    def test_dbfile_windows(self):
+        """
+        Test case for checking windows database directory
+        :return:
+        """
+        dbfile = bukmarker.BukmarkerDB.get_default_dbdir()
+
+        self.assertEqual(dbfile,"C:\\Users\\Devesh\\AppData\\Roaming\\buku")
 
 #temporary
 if __name__ == "main":

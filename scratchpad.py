@@ -4,9 +4,13 @@
 #import os
 import os,requests,sqlite3,logging
 
+## test os
+import platform
+print(platform.system())
+
+
 logging.basicConfig(filename='bukmarker.log', level=logging.DEBUG)
 # open firefox db file
-
 conn = sqlite3.connect("C:\\Users\\Devesh\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\x94qotzr.default-1509035816333\\places.sqlite", \
                        detect_types=sqlite3.PARSE_COLNAMES|sqlite3.PARSE_DECLTYPES)
 conn.row_factory = sqlite3.Row
