@@ -31,7 +31,7 @@ class BukmarkerDB():
 
         dbfile = os.environ.get("HOME")
         if dbfile is None:
-            if platform.system() == "Window":
+            if platform.system() == "Windows":
                 dbfile = os.environ.get("APPDATA")
             else:
                 dbfile = os.path.abspath(".")
