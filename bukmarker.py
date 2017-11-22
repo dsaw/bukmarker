@@ -3,7 +3,15 @@ import json
 import sqlite3
 import logging,os,platform
 # logging setup
-logging.basicConfig(filename='bukmarker.log',level=logging.DEBUG)
+logger = logging.getLogger("bukmarker.py")
+logger.setLevel(logging.DEBUG)
+
+filh = logging.FileHandler("bukmarker.log")
+filh.setLevel(logging.DEBUG)
+formatter = logging.Formatter("%(asctime)s - %(funcName)s - %(levelname)s -  %(message)s")
+filh.setFormatter(formatter)
+logger.addHandler(filh)
+
 
 __version__ = '0.0.1'
 __name__ = 'Devesh Sawant @dsaw'
@@ -126,7 +134,7 @@ class BukmarkerDB():
         for item in child_sublist:
             if item['type'] == 'folder':
                 self.traverse_bm_folder(item['children'], item['name'])
-                logging.debug("Folder traversed : {0}".format(item['name']))
+                logger.debug("Folder traversed : {0}".format(item['name']))
             elif item['type'] == 'url':
                 yield item
 

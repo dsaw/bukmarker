@@ -1,6 +1,6 @@
 
 
-import unittest,logging,os
+import unittest,os,logging
 #logging.basicConfig(filename='bukmarker.log', level=logging.DEBUG)
 import json
 import sqlite3
@@ -17,7 +17,7 @@ class TestImports(unittest.TestCase):
         logfile_path = os.path.abspath(os.path.dirname(os.path.__file__))
         logfilename = os.path.join(logfile_path, "..\bukmarker.log")
         self.chrome_bm = self.bukmarker.load_chrome_bookmarks(self.bukmarker.read_json_bookmarks())
-        logging.basicConfig(filename=logfilename,filemode="w", level=logging.BASIC_FORMAT)
+        logging.basicConfig(filename='bukmarker.log', level=logging.DEBUG)
 
     def tearDown(self):
         pass
@@ -29,7 +29,7 @@ class TestImports(unittest.TestCase):
         """
 
         bm_list = list()
-        for bkey, bval in self.chrome_bm.items():
+        for bkey, bval in self.chrome_bm.items():                  # TODO : refactor traverse folder to bukmarker class
             if bval["type"] == "folder":
                 logging.info("Bookmark Folder - {0}".format(bkey))
                 bm_list.extend(self.bukmarker.traverse_bm_folder(bval["children"], bval["name"]))
