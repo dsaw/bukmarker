@@ -24,7 +24,7 @@ class BukmarkerDB():
     def __init__(self,conn,cursor,dbfile=None):
         self.conn = conn
         self.cursor = cursor
-        self.dbfile = dbfile
+        self.dbfile = BukmarkerDB.get_default_dbdir()
 
     @staticmethod
     def get_default_dbdir():
@@ -44,8 +44,28 @@ class BukmarkerDB():
             else:
                 dbfile = os.path.abspath(".")
 
-        dbfile = os.path.join(dbfile,"buku")
+        dbfile = os.path.join(dbfile,"bukmarker.sqlite")
         return dbfile
+
+    def create_bookmark_db(self):
+        """
+        Creates bookmark table in cursor if not done yet.
+        only run first time
+        :return:
+        """
+
+        self.conn = sqlite3.connect(self.dbfile, detect_types=sqlite3.PARSE_DECLTYPES|sqlite3.PARSE_COLNAMES)
+        self.cursor = self.conn.cursor()
+
+        self.cursor.execute("""create table  IF NOT EXISTS bookmarks (
+                            url text PRIMARY KEY,
+                            title text NOT NULL,
+                            tags text,
+                            description text,
+                            last_modified timestamp
+         );""")
+
+
 
     def read_firefox_bookmarks_db(self, dbfile="C:\\Users\\Devesh\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\x94qotzr.default-1509035816333\\places.sqlite"):
         """

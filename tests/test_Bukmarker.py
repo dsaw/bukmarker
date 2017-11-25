@@ -54,7 +54,15 @@ class TestImports(unittest.TestCase):
         """
         dbfile = bukmarker.BukmarkerDB.get_default_dbdir()
 
-        self.assertEqual(dbfile,"C:\\Users\\Devesh\\AppData\\Roaming\\buku")
+        self.assertEqual(dbfile,"C:\\Users\\Devesh\\AppData\\Roaming\\bukmarker.sqlite")
+
+    def test_bookmark_table_creation(self):
+        """
+        Test case for checking creation of new table
+        :return:
+        """
+
+        self.bukmarker.create_bookmark_db()
 
 #temporary
 if __name__ == "main":
