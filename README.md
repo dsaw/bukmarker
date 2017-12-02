@@ -1,4 +1,10 @@
 # bukmarker
+> Command line integrated bookmark manager 
 
-* Command line bookmark manager that automatically imports from browsers.
-* Add, update, delete, search bookmarks quickly 
+bukmarker can add, update, delete and search bookmarks quickly from the command line. It also can automatically import bookmarks from browsers.
+
+## Installation
+
+
+
+## Usage example
