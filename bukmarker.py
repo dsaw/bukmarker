@@ -1,7 +1,7 @@
 
 import json
 import sqlite3
-import logging,os,platform
+import logging,os,platform,datetime
 # logging setup
 logger = logging.getLogger("bukmarker.py")
 logger.setLevel(logging.DEBUG)
@@ -21,10 +21,11 @@ __name__ = 'Devesh Sawant @dsaw'
 
 class BukmarkerDB():
 
-    def __init__(self,conn,cursor,dbfile=None):
-        self.conn = conn
-        self.cursor = cursor
-        self.dbfile = BukmarkerDB.get_default_dbdir()
+    def __init__(self,dbfile=None):
+        self.conn = sqlite3.connect(self.dbfile, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
+        self.cursor = self.conn.cursor()
+        if dbfile is None:
+            self.dbfile = BukmarkerDB.get_default_dbdir()
 
     @staticmethod
     def get_default_dbdir():
@@ -53,17 +54,47 @@ class BukmarkerDB():
         only run first time
         :return:
         """
+        try:
+            self.conn = sqlite3.connect(self.dbfile, detect_types=sqlite3.PARSE_DECLTYPES|sqlite3.PARSE_COLNAMES)
+            self.cursor = self.conn.cursor()
 
-        self.conn = sqlite3.connect(self.dbfile, detect_types=sqlite3.PARSE_DECLTYPES|sqlite3.PARSE_COLNAMES)
-        self.cursor = self.conn.cursor()
+            self.cursor.execute("""create table  IF NOT EXISTS bookmarks (
+                                url text PRIMARY KEY,
+                                title text NOT NULL,
+                                tags text,
+                                description text,
+                                last_modified timestamp
+             );""")
+        except sqlite3.OperationalError:
+            logger.error("SQLite3 Operational error ")      ## customise error
+            raise
 
-        self.cursor.execute("""create table  IF NOT EXISTS bookmarks (
-                            url text PRIMARY KEY,
-                            title text NOT NULL,
-                            tags text,
-                            description text,
-                            last_modified timestamp
-         );""")
+    def add_bookmark_db(self,url,title="",tags = "", description="",delay_commit=False):
+        """"
+        Inserts a bookmark entry in bookmark table
+        :param url : url to add
+        :param title
+        :param tags
+        :param description
+
+        """
+        # to add error checking
+
+        if url is None:
+            logger.error("url is blank")
+
+
+        nowtime = datetime.datetime.now()
+        self.cursor.execute("""
+            INSERT INTO bookmark VALUES
+              (
+                ?,
+                ?,
+                ?,
+                ?,
+                ?
+              );
+        """,(url,title,tags,description,nowtime))
 
 
 
@@ -149,7 +180,7 @@ class BukmarkerDB():
         """
 
         if not isinstance(child_sublist, list):
-            raise Exception(" child_sublist not a list")
+            raise Exception(" Child_sublist not a list")
         # recursive yield of url
         for item in child_sublist:
             if item['type'] == 'folder':

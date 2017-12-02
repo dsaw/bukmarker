@@ -13,7 +13,7 @@ class TestImports(unittest.TestCase):
 
     def setUp(self):
         # relative logfile path
-        self.bukmarker = bukmarker.BukmarkerDB("conn","cursor")
+        self.bukmarker = bukmarker.BukmarkerDB()
         logfile_path = os.path.abspath(os.path.dirname(os.path.__file__))
         logfilename = os.path.join(logfile_path, "..\bukmarker.log")
         self.chrome_bm = self.bukmarker.load_chrome_bookmarks(self.bukmarker.read_json_bookmarks())
@@ -63,6 +63,25 @@ class TestImports(unittest.TestCase):
         """
 
         self.bukmarker.create_bookmark_db()
+
+    def test_bookmark_table_file_not_found(self):
+        """
+        Test by opening a non existent db file
+        :return:
+        """
+
+        self.bukmarker.dbfile = "C:\\Users\\Devesh\\AppData\\Roaming\\buk"
+        self.bukmarker.create_bookmark_db()
+        self.assertRaises(sqlite3.OperationalError)
+
+    def test_adding_duplicate_bookmark(self):
+        """
+        Adds a bookmark with same url.
+        Test passes if exception raised
+        :return:
+        """
+        with self.assertRaises(sqlite3.DatabaseError):
+            self.bukmarker.add_bookmark_db('www.google.com')
 
 #temporary
 if __name__ == "main":
