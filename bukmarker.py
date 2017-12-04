@@ -1,14 +1,17 @@
 
 import json
 import sqlite3
-import logging,os,platform,datetime
+import logging
+import os
+import platform
+import datetime
 # logging setup
 logger = logging.getLogger("bukmarker.py")
 logger.setLevel(logging.DEBUG)
 
 filh = logging.FileHandler("bukmarker.log")
 filh.setLevel(logging.DEBUG)
-formatter = logging.Formatter("%(asctime)s - %(funcName)s - %(levelname)s -  %(message)s")
+formatter = logging.Formatter("%(asctime)s - %(funcName)s -  %(message)s")
 filh.setFormatter(formatter)
 logger.addHandler(filh)
 
@@ -22,10 +25,13 @@ __name__ = 'Devesh Sawant @dsaw'
 class BukmarkerDB():
 
     def __init__(self,dbfile=None):
-        self.conn = sqlite3.connect(self.dbfile, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
-        self.cursor = self.conn.cursor()
         if dbfile is None:
             self.dbfile = BukmarkerDB.get_default_dbdir()
+        else:
+            self.dbfile = dbfile
+        self.conn = sqlite3.connect(self.dbfile, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
+        self.cursor = self.conn.cursor()
+
 
     @staticmethod
     def get_default_dbdir():
@@ -65,28 +71,57 @@ class BukmarkerDB():
                                 description text,
                                 last_modified timestamp
              );""")
-        except sqlite3.OperationalError:
-            logger.error("SQLite3 Operational error ")      ## customise error
+        except sqlite3.OperationalError as e:
+            logger.error(" {} ".format(e))      ## customise error
             raise
 
-    def add_bookmark_db(self,url,title="",tags = "", description="",delay_commit=False):
+    def get_bm_id(self,url):
+        """
+        Checks if the bookmark exists in the table
+        :param url: string of url
+        :return: url if it exists,
+                -1 if not
+        """
+        if url is None:
+            logger.error("url is blank")
+            return -1
+
+        try:
+            self.cursor.execute("SELECT * FROM bookmarks WHERE url = ? LIMIT 1;",(url,))
+            row = self.cursor.fetchone()
+
+        except Exception as e:
+            logger.exception("{}".format(e))
+            return -1
+
+        if row is None:
+            return -1
+        else:
+            return url
+
+
+
+    def add_bookmark_db(self,url,title="", tags="", description="", delay_commit=False):
         """"
         Inserts a bookmark entry in bookmark table
         :param url : url to add
         :param title
         :param tags
         :param description
-
+        :return: -1 if unsuccesful
         """
         # to add error checking
 
         if url is None:
             logger.error("url is blank")
 
+        if self.get_bm_id(url) == url:
+            logger.debug("url already exists")
+            return -1
 
         nowtime = datetime.datetime.now()
         self.cursor.execute("""
-            INSERT INTO bookmark VALUES
+            INSERT INTO bookmarks VALUES
               (
                 ?,
                 ?,
@@ -95,6 +130,10 @@ class BukmarkerDB():
                 ?
               );
         """,(url,title,tags,description,nowtime))
+
+        if not delay_commit:
+            self.conn.commit()
+
 
 
 

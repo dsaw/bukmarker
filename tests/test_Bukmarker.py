@@ -1,6 +1,8 @@
 
 
-import unittest,os,logging
+import unittest
+import os
+import logging
 #logging.basicConfig(filename='bukmarker.log', level=logging.DEBUG)
 import json
 import sqlite3
@@ -74,14 +76,14 @@ class TestImports(unittest.TestCase):
         self.bukmarker.create_bookmark_db()
         self.assertRaises(sqlite3.OperationalError)
 
-    def test_adding_duplicate_bookmark(self):
+    def test_add_duplicate_bookmark(self):
         """
         Adds a bookmark with same url.
-        Test passes if exception raised
+        Test passes if -1 is returned
         :return:
         """
-        with self.assertRaises(sqlite3.DatabaseError):
-            self.bukmarker.add_bookmark_db('www.google.com')
+        ret = self.bukmarker.add_bookmark_db('www.google.com')
+        self.assertEqual(ret,-1)
 
 #temporary
 if __name__ == "main":
