@@ -29,7 +29,6 @@ class TestImports(unittest.TestCase):
 
         :return:
         """
-
         bm_list = list()
         for bkey, bval in self.chrome_bm.items():                  # TODO : refactor traverse folder to bukmarker class
             if bval["type"] == "folder":
@@ -45,7 +44,6 @@ class TestImports(unittest.TestCase):
         Test case for importing bookmarks from firefox places.sqlite file
         :return:
         """
-
         bm = self.bukmarker.read_firefox_bookmarks_db()
         self.assertGreater(len(bm), 0)
 
@@ -55,7 +53,6 @@ class TestImports(unittest.TestCase):
         :return:
         """
         dbfile = bukmarker.BukmarkerDB.get_default_dbdir()
-
         self.assertEqual(dbfile,"C:\\Users\\Devesh\\AppData\\Roaming\\bukmarker.sqlite")
 
     def test_bookmark_table_creation(self):
@@ -63,7 +60,6 @@ class TestImports(unittest.TestCase):
         Test case for checking creation of new table
         :return:
         """
-
         self.bukmarker.create_bookmark_db()
 
     def test_bookmark_table_file_not_found(self):
@@ -71,7 +67,6 @@ class TestImports(unittest.TestCase):
         Test by opening a non existent db file
         :return:
         """
-
         self.bukmarker.dbfile = "C:\\Users\\Devesh\\AppData\\Roaming\\buk"
         self.bukmarker.create_bookmark_db()
         self.assertRaises(sqlite3.OperationalError)
@@ -82,8 +77,18 @@ class TestImports(unittest.TestCase):
         Test passes if -1 is returned
         :return:
         """
+        self.bukmarker.add_bookmark_db('www.google.com')
         ret = self.bukmarker.add_bookmark_db('www.google.com')
         self.assertEqual(ret,-1)
+
+    def test_deletion_bookmark(self):
+        """
+        Deletes a bookmark with given url
+        :return:
+        """
+        self.bukmarker.add_bookmark_db('www.google.com')
+        ret = self.bukmarker.delete_bookmark_db('www.google.com')
+        self.assertEqual(ret,'www.google.com')
 
 #temporary
 if __name__ == "main":

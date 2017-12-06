@@ -100,7 +100,7 @@ class BukmarkerDB():
             return url
 
 
-
+    # TODO: option to replace existing bookmark
     def add_bookmark_db(self,url,title="", tags="", description="", delay_commit=False):
         """"
         Inserts a bookmark entry in bookmark table
@@ -108,7 +108,7 @@ class BukmarkerDB():
         :param title
         :param tags
         :param description
-        :return: -1 if unsuccesful
+        :return: -1 if unsuccessful
         """
         # to add error checking
 
@@ -134,7 +134,30 @@ class BukmarkerDB():
         if not delay_commit:
             self.conn.commit()
 
+    def delete_bookmark_db(self,url):
+        """
+        Deletes bookmark in table with given url
+        :param url: bookmark with url to delete
+        :return: url if successful
+            -1 if unsuccessful
+        """
+        if url is None:
+            logger.error("url is blank")
 
+        query = "DELETE FROM bookmarks WHERE url = ?"
+        try:
+            self.cursor.execute(query,(url,))
+            if self.cursor.rowcount == 1:
+                print("Deleted {} successfully".format(url))
+                self.conn.commit()
+                return url
+            else:
+                print("Bookmark with {} doesn't exist".format(url))
+                logger.debug("bookmark with {} doesn't exist".format(url))
+                return -1
+        except Exception as e:
+            logger.exception("{}".format(e))
+            return -1
 
 
     def read_firefox_bookmarks_db(self, dbfile="C:\\Users\\Devesh\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\x94qotzr.default-1509035816333\\places.sqlite"):
