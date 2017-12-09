@@ -1,0 +1,77 @@
+2017-11-25 23:43:44,447 - traverse_bm_folder - DEBUG -  Folder traversed : security_hackers
+2017-11-25 23:43:44,494 - traverse_bm_folder - DEBUG -  Folder traversed : AI
+2017-11-25 23:43:44,494 - traverse_bm_folder - DEBUG -  Folder traversed : algocourse
+2017-11-25 23:43:44,494 - traverse_bm_folder - DEBUG -  Folder traversed : java
+2017-11-25 23:43:44,494 - traverse_bm_folder - DEBUG -  Folder traversed : speech
+2017-11-25 23:43:44,494 - traverse_bm_folder - DEBUG -  Folder traversed : C++
+2017-11-25 23:43:44,494 - traverse_bm_folder - DEBUG -  Folder traversed : webapp
+2017-11-25 23:43:44,494 - traverse_bm_folder - DEBUG -  Folder traversed : android_shenaginans
+2017-11-25 23:43:44,494 - traverse_bm_folder - DEBUG -  Folder traversed : productivity
+2017-11-25 23:43:44,494 - traverse_bm_folder - DEBUG -  Folder traversed : py
+2017-11-25 23:43:44,494 - traverse_bm_folder - DEBUG -  Folder traversed : rasppi
+2017-11-25 23:43:44,494 - traverse_bm_folder - DEBUG -  Folder traversed : UML_smd
+2017-11-25 23:43:44,494 - traverse_bm_folder - DEBUG -  Folder traversed : git
+2017-11-25 23:43:44,494 - traverse_bm_folder - DEBUG -  Folder traversed : startups
+2017-11-25 23:43:44,494 - traverse_bm_folder - DEBUG -  Folder traversed : security_hackers
+2017-11-25 23:43:44,494 - traverse_bm_folder - DEBUG -  Folder traversed : AI
+2017-11-25 23:43:44,494 - traverse_bm_folder - DEBUG -  Folder traversed : algocourse
+2017-11-25 23:43:44,494 - traverse_bm_folder - DEBUG -  Folder traversed : java
+2017-11-25 23:43:44,494 - traverse_bm_folder - DEBUG -  Folder traversed : speech
+2017-11-25 23:43:44,494 - traverse_bm_folder - DEBUG -  Folder traversed : C++
+2017-11-25 23:43:44,494 - traverse_bm_folder - DEBUG -  Folder traversed : webapp
+2017-11-25 23:43:44,494 - traverse_bm_folder - DEBUG -  Folder traversed : android_shenaginans
+2017-11-25 23:43:44,494 - traverse_bm_folder - DEBUG -  Folder traversed : productivity
+2017-11-25 23:43:44,494 - traverse_bm_folder - DEBUG -  Folder traversed : py
+2017-11-25 23:43:44,494 - traverse_bm_folder - DEBUG -  Folder traversed : rasppi
+2017-11-25 23:43:44,494 - traverse_bm_folder - DEBUG -  Folder traversed : UML_smd
+2017-11-25 23:43:44,494 - traverse_bm_folder - DEBUG -  Folder traversed : git
+2017-11-25 23:43:44,494 - traverse_bm_folder - DEBUG -  Folder traversed : startups
+2017-11-25 23:43:44,509 - traverse_bm_folder - DEBUG -  Folder traversed : ProgrammingJewel
+2017-11-25 23:43:44,509 - traverse_bm_folder - DEBUG -  Folder traversed : MScPlan
+2017-11-25 23:43:44,509 - traverse_bm_folder - DEBUG -  Folder traversed : maintenance
+2017-11-25 23:43:44,509 - traverse_bm_folder - DEBUG -  Folder traversed : ProgrammingJewel
+2017-11-25 23:43:44,509 - traverse_bm_folder - DEBUG -  Folder traversed : MScPlan
+2017-11-25 23:43:44,509 - traverse_bm_folder - DEBUG -  Folder traversed : maintenance
+2017-12-05 00:41:30,521 - add_bookmark_db -  url already exists
+2017-12-06 13:23:46,550 - delete_bookmark_db -  'BukmarkerDB' object has no attribute 'cur'
+Traceback (most recent call last):
+  File "C:\Users\Devesh\Programming Haven\python3\bukmarker\bukmarker.py", line 150, in delete_bookmark_db
+    if self.cur.rowcount == 1:
+AttributeError: 'BukmarkerDB' object has no attribute 'cur'
+2017-12-06 13:25:18,168 - delete_bookmark_db -  bookmark with www.google.com doesn't exist
+2017-12-06 13:31:58,051 - add_bookmark_db -  url already exists
+2017-12-06 13:31:58,051 - add_bookmark_db -  url already exists
+2017-12-06 13:32:21,193 - traverse_bm_folder -  Folder traversed : security_hackers
+2017-12-06 13:32:21,193 - traverse_bm_folder -  Folder traversed : AI
+2017-12-06 13:32:21,193 - traverse_bm_folder -  Folder traversed : java
+2017-12-06 13:32:21,193 - traverse_bm_folder -  Folder traversed : speech
+2017-12-06 13:32:21,193 - traverse_bm_folder -  Folder traversed : C++
+2017-12-06 13:32:21,193 - traverse_bm_folder -  Folder traversed : webapp
+2017-12-06 13:32:21,193 - traverse_bm_folder -  Folder traversed : android_shenaginans
+2017-12-06 13:32:21,193 - traverse_bm_folder -  Folder traversed : algocourse
+2017-12-06 13:32:21,193 - traverse_bm_folder -  Folder traversed : productivity
+2017-12-06 13:32:21,193 - traverse_bm_folder -  Folder traversed : py
+2017-12-06 13:32:21,193 - traverse_bm_folder -  Folder traversed : rasppi
+2017-12-06 13:32:21,193 - traverse_bm_folder -  Folder traversed : UML_smd
+2017-12-06 13:32:21,193 - traverse_bm_folder -  Folder traversed : git
+2017-12-06 13:32:21,193 - traverse_bm_folder -  Folder traversed : startups
+2017-12-06 13:32:21,193 - traverse_bm_folder -  Folder traversed : security_hackers
+2017-12-06 13:32:21,193 - traverse_bm_folder -  Folder traversed : AI
+2017-12-06 13:32:21,193 - traverse_bm_folder -  Folder traversed : java
+2017-12-06 13:32:21,193 - traverse_bm_folder -  Folder traversed : speech
+2017-12-06 13:32:21,193 - traverse_bm_folder -  Folder traversed : C++
+2017-12-06 13:32:21,193 - traverse_bm_folder -  Folder traversed : webapp
+2017-12-06 13:32:21,193 - traverse_bm_folder -  Folder traversed : android_shenaginans
+2017-12-06 13:32:21,193 - traverse_bm_folder -  Folder traversed : algocourse
+2017-12-06 13:32:21,193 - traverse_bm_folder -  Folder traversed : productivity
+2017-12-06 13:32:21,193 - traverse_bm_folder -  Folder traversed : py
+2017-12-06 13:32:21,193 - traverse_bm_folder -  Folder traversed : rasppi
+2017-12-06 13:32:21,193 - traverse_bm_folder -  Folder traversed : UML_smd
+2017-12-06 13:32:21,193 - traverse_bm_folder -  Folder traversed : git
+2017-12-06 13:32:21,193 - traverse_bm_folder -  Folder traversed : startups
+2017-12-06 13:32:21,193 - traverse_bm_folder -  Folder traversed : ProgrammingJewel
+2017-12-06 13:32:21,193 - traverse_bm_folder -  Folder traversed : MScPlan
+2017-12-06 13:32:21,193 - traverse_bm_folder -  Folder traversed : maintenance
+2017-12-06 13:32:21,193 - traverse_bm_folder -  Folder traversed : ProgrammingJewel
+2017-12-06 13:32:21,193 - traverse_bm_folder -  Folder traversed : MScPlan
+2017-12-06 13:32:21,193 - traverse_bm_folder -  Folder traversed : maintenance
