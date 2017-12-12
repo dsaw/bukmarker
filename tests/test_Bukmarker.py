@@ -90,6 +90,23 @@ class TestImports(unittest.TestCase):
         ret = self.bukmarker.delete_bookmark_db('www.google.com')
         self.assertEqual(ret,'www.google.com')
 
+    def test_modify_all_param_bookmark(self):
+        """
+        Modify a bookmark
+        :return:
+        """
+        ret = self.bukmarker.modify_bookmark_db("www.google.com","The search engine of the internet","search,google","No description required")
+        self.assertEqual(ret,"www.google.com")
+
+    def test_fetch_title_bookmark(self):
+        """
+        tests fetching action
+        :return:
+        """
+        actual_title = "Example Domain"
+        fetched_title = self.bukmarker.fetch_title_bookmark('http://example.com/')
+        self.assertEqual(fetched_title,actual_title)
+
 #temporary
 if __name__ == "main":
 

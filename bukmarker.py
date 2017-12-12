@@ -5,6 +5,8 @@ import logging
 import os
 import platform
 import datetime
+from urllib.request import urlopen
+from bs4 import BeautifulSoup
 # logging setup
 logger = logging.getLogger("bukmarker.py")
 logger.setLevel(logging.DEBUG)
@@ -114,6 +116,7 @@ class BukmarkerDB():
 
         if url is None:
             logger.error("url is blank")
+            return -1
 
         if self.get_bm_id(url) == url:
             logger.debug("url already exists")
@@ -143,6 +146,7 @@ class BukmarkerDB():
         """
         if url is None:
             logger.error("url is blank")
+            return -1
 
         query = "DELETE FROM bookmarks WHERE url = ?"
         try:
@@ -158,6 +162,57 @@ class BukmarkerDB():
         except Exception as e:
             logger.exception("{}".format(e))
             return -1
+
+    def modify_bookmark_db(self,url,title="", tags="", description=""):
+        """
+        Updates bookmark column in table with  given attributes.
+        Will automatically fetch url from table (todo)
+
+        :param title:
+        :param tags:
+        :param description:
+        :return: -1 if unsuccessful
+        """
+
+        if url is None:
+            logger.error("url is blank")
+            return -1
+
+        nowtime = datetime.datetime.now()
+        query = "UPDATE bookmarks SET title = ?, tags = ?, description = ?, last_modified = ? WHERE url = ?;"
+        try:
+            self.cursor.execute(query,(title,tags,description,nowtime,url))
+            if self.cursor.rowcount == 1:
+                print("Updated {} successfully".format(url))
+                self.conn.commit()
+                return url
+            else:
+                print("Bookmark with {} doesn't exist".format(url))
+                logger.debug("bookmark with {} doesn't exist".format(url))
+                return -1
+        except Exception as e:
+            logger.exception("{}".format(e))
+            return -1
+
+    def fetch_title_bookmark(self,url):
+        """
+        Opens web page at url and fetches the title
+        :param url: if empty logs error
+        :return: title or -1 if url empty
+        """
+
+        if url is None:
+            logger.error("url is blank")
+            return -1
+
+        bm_req = urlopen(url)
+        # todo: deal with various http errors
+        bm_soup = BeautifulSoup(bm_req,"lxml")
+        return bm_soup.title.string
+
+
+
+
 
 
     def read_firefox_bookmarks_db(self, dbfile="C:\\Users\\Devesh\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\x94qotzr.default-1509035816333\\places.sqlite"):
@@ -250,7 +305,7 @@ class BukmarkerDB():
                 logger.debug("Folder traversed : {0}".format(item['name']))
             elif item['type'] == 'url':
                 yield item
->>>>>>> dbfunc
+
 
 if __name__ == "__main__":
     #chrome_bm = load_chrome_bookmarks(read_json_bookmarks())

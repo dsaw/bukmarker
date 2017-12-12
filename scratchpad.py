@@ -41,7 +41,7 @@ for row in c.fetchall():
 logfile_path = os.path.abspath(os.path.dirname(os.path.__file__))
 logfilename = os.path.join(logfile_path, "bukmarker.log")
 print(logfile_path)
->>>>>>> dbfunc
+
 print(os.getcwd())
 env = os.environ
 print(os.path.join(env.get('APPDATA'),'dev'))
@@ -60,4 +60,3 @@ def h():
     print(len(g))
 
 h()
-r = requests.post('http://httpbin.org/post', data = {'key':'value'})
