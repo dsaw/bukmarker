@@ -107,6 +107,16 @@ class TestImports(unittest.TestCase):
         fetched_title = self.bukmarker.fetch_title_bookmark('http://example.com/')
         self.assertEqual(fetched_title,actual_title)
 
+    def test_fetch_title_not_found(self):
+        """
+        tests by fetching from non-existent host.
+        :return:
+        """
+        non_existent_domain = "https://www.crummy.com/software/BeautifulSoup/bs4/doc/de"
+        with self.assertLogs("bukmarker.py",level="ERROR") as cm:
+            ret = self.bukmarker.fetch_title_bookmark(non_existent_domain)
+        ## TODO: check whether error is 404
+
 #temporary
 if __name__ == "main":
 

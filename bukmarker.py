@@ -6,7 +6,9 @@ import os
 import platform
 import datetime
 from urllib.request import urlopen
+from urllib.error import HTTPError,URLError
 from bs4 import BeautifulSoup
+
 # logging setup
 logger = logging.getLogger("bukmarker.py")
 logger.setLevel(logging.DEBUG)
@@ -17,10 +19,8 @@ formatter = logging.Formatter("%(asctime)s - %(funcName)s -  %(message)s")
 filh.setFormatter(formatter)
 logger.addHandler(filh)
 
-
 __version__ = '0.0.1'
 __name__ = 'Devesh Sawant @dsaw'
-
 
 # Bukmarker - cmd bookmarking application - integrates with browser bookmarks in one place.
 
@@ -205,13 +205,17 @@ class BukmarkerDB():
             logger.error("url is blank")
             return -1
 
-        bm_req = urlopen(url)
-        # todo: deal with various http errors
-        bm_soup = BeautifulSoup(bm_req,"lxml")
-        return bm_soup.title.string
-
-
-
+        try:
+            bm_req = urlopen(url)
+        except HTTPError as e:
+            logger.error(" {}, {} ".format(e.code,e.reason[1]))
+            return -1
+        except URLError as e:
+            logger.error("{}, {}".format(*e.reason))
+            return -1
+        else:
+            bm_soup = BeautifulSoup(bm_req,"lxml")
+            return bm_soup.title.string
 
 
 
