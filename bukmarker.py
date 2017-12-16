@@ -163,25 +163,62 @@ class BukmarkerDB():
             logger.exception("{}".format(e))
             return -1
 
-    def modify_bookmark_db(self,url,title="", tags="", description=""):
+    def modify_bookmark_db(self,url,title=None, tags_in=None, description=None):
         """
         Updates bookmark column in table with  given attributes.
         Will automatically fetch url from table (todo)
 
         :param title:
-        :param tags:
+        :param tags_in: string
+                tags should be comma separated in the string
         :param description:
         :return: -1 if unsuccessful
         """
 
+        query = "UPDATE bookmarks SET "
+        params = ()
+        to_update = False
+
         if url is None:
+            # TODO automatically fetch url
             logger.error("url is blank")
             return -1
 
+        if title is not None:
+            query += "title = ?, "
+            params += (title,)
+            to_update = True
+
+        if tags_in is not None:
+            # TODO handle various input string anomalies
+            tags_in = tags_in.strip(", ")
+
+            query += "tags = ?, "
+            params += (tags_in,)
+            to_update = True
+
+        if description is not None:
+            query += "description = ?, "
+            params += (description,)
+            to_update = True
+
+        if not to_update:
+            title = self.fetch_title_bookmark("https://" + url)
+            if title == -1:
+                print("Unable to fetch title...")
+                return -1
+            query += "title = ?, "
+            params += (title,)
+            to_update = True
         nowtime = datetime.datetime.now()
-        query = "UPDATE bookmarks SET title = ?, tags = ?, description = ?, last_modified = ? WHERE url = ?;"
+
+        params += (nowtime,url)
+        query = query.strip(" ")
+        query += " last_modified = ?  WHERE url = ?;"
+
+
         try:
-            self.cursor.execute(query,(title,tags,description,nowtime,url))
+            self.cursor.execute(query,params)
             if self.cursor.rowcount == 1:
                 print("Updated {} successfully".format(url))
                 self.conn.commit()

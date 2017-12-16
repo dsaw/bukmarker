@@ -75,3 +75,33 @@ AttributeError: 'BukmarkerDB' object has no attribute 'cur'
 2017-12-06 13:32:21,193 - traverse_bm_folder -  Folder traversed : ProgrammingJewel
 2017-12-06 13:32:21,193 - traverse_bm_folder -  Folder traversed : MScPlan
 2017-12-06 13:32:21,193 - traverse_bm_folder -  Folder traversed : maintenance
+2017-12-15 21:22:33,583 - modify_bookmark_db -  near " ": syntax error
+Traceback (most recent call last):
+  File "C:\Users\Devesh\Programming Haven\python3\bukmarker\bukmarker.py", line 213, in modify_bookmark_db
+    self.cursor.execute(query,params)
+sqlite3.OperationalError: near " ": syntax error
+2017-12-16 22:05:21,647 - modify_bookmark_db -  near " ": syntax error
+Traceback (most recent call last):
+  File "C:\Users\Devesh\Programming Haven\python3\bukmarker\bukmarker.py", line 213, in modify_bookmark_db
+    self.cursor.execute(query,params)
+sqlite3.OperationalError: near " ": syntax error
+2017-12-16 22:52:15,863 - modify_bookmark_db -  near "WHERE": syntax error
+Traceback (most recent call last):
+  File "C:\Users\Devesh\Programming Haven\python3\bukmarker\bukmarker.py", line 215, in modify_bookmark_db
+    self.cursor.execute(query,params)
+sqlite3.OperationalError: near "WHERE": syntax error
+2017-12-16 22:52:34,165 - modify_bookmark_db -  near "WHERE": syntax error
+Traceback (most recent call last):
+  File "C:\Users\Devesh\Programming Haven\python3\bukmarker\bukmarker.py", line 215, in modify_bookmark_db
+    self.cursor.execute(query,params)
+sqlite3.OperationalError: near "WHERE": syntax error
+2017-12-16 22:53:24,513 - modify_bookmark_db -  Incorrect number of bindings supplied. The current statement uses 4, and there are 3 supplied.
+Traceback (most recent call last):
+  File "C:\Users\Devesh\Programming Haven\python3\bukmarker\bukmarker.py", line 215, in modify_bookmark_db
+    self.cursor.execute(query,params)
+sqlite3.ProgrammingError: Incorrect number of bindings supplied. The current statement uses 4, and there are 3 supplied.
+2017-12-17 00:04:16,110 - modify_bookmark_db -  near "last_modified": syntax error
+Traceback (most recent call last):
+  File "C:\Users\Devesh\Programming Haven\python3\bukmarker\bukmarker.py", line 221, in modify_bookmark_db
+    self.cursor.execute(query,params)
+sqlite3.OperationalError: near "last_modified": syntax error

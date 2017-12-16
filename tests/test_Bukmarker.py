@@ -95,7 +95,23 @@ class TestImports(unittest.TestCase):
         Modify a bookmark
         :return:
         """
-        ret = self.bukmarker.modify_bookmark_db("www.google.com","The search engine of the internet","search,google","No description required")
+        ret = self.bukmarker.modify_bookmark_db("www.google.com","The search engine of the internet","search,google,query","No description required")
+        self.assertEqual(ret,"www.google.com")
+
+    def test_modify_title_bookmark(self):
+        """
+        Modify only title
+        :return:
+        """
+        ret = self.bukmarker.modify_bookmark_db("www.google.com", "Googleplex")
+        self.assertEqual(ret, "www.google.com")
+
+    def test_modify_fetch_title(self):
+        """
+        Pass in url only and fetch title automatically
+        :return:
+        """
+        ret = self.bukmarker.modify_bookmark_db("www.google.com")
         self.assertEqual(ret,"www.google.com")
 
     def test_fetch_title_bookmark(self):
@@ -116,6 +132,8 @@ class TestImports(unittest.TestCase):
         with self.assertLogs("bukmarker.py",level="ERROR") as cm:
             ret = self.bukmarker.fetch_title_bookmark(non_existent_domain)
         ## TODO: check whether error is 404
+
+
 
 #temporary
 if __name__ == "main":
