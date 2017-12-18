@@ -133,6 +133,18 @@ class TestImports(unittest.TestCase):
             ret = self.bukmarker.fetch_title_bookmark(non_existent_domain)
         ## TODO: check whether error is 404
 
+    def test_append_tags(self):
+        """
+        tests by appending arbitrary tags.
+        :return:
+        """
+
+        new_tags = ["google","larry","sergey"]
+
+        ret = self.bukmarker.append_tags("www.google.com",new_tags)
+        ## TODO: use get_tags to check
+        self.assertEqual(ret,"www.google.com")
+
 
 
 #temporary

@@ -8,6 +8,7 @@ import datetime
 from urllib.request import urlopen
 from urllib.error import HTTPError,URLError
 from bs4 import BeautifulSoup
+from heapq import merge
 
 # logging setup
 logger = logging.getLogger("bukmarker.py")
@@ -21,6 +22,24 @@ logger.addHandler(filh)
 
 __version__ = '0.0.1'
 __name__ = 'Devesh Sawant @dsaw'
+
+def merge_no_dupes(*iterables):
+    """
+    Merge sorted iterables into one unique iterable
+    :param *iterables
+    :return: merged iterable as a generator
+    """
+
+    last = object()
+
+    for val in merge(*iterables):
+        if val != last:
+            last = val
+            yield val
+# https://codereview.stackexchange.com/questions/108171/merge-two-list-and-discarding-duplicates
+
+
+
 
 # Bukmarker - cmd bookmarking application - integrates with browser bookmarks in one place.
 
@@ -231,6 +250,38 @@ class BukmarkerDB():
             logger.exception("{}".format(e))
             return -1
 
+
+    def append_tags(self,url,tag_set):
+        """
+        Appends new tags passed in to bookmark record.
+        :param url:
+        :param tag_set:
+        :return: -1 if unsuccessful
+        """
+        if url is None:
+            logger.error("url is blank")
+            return -1
+
+        self.cursor.execute("SELECT url,tags from bookmarks where url = ?", (url,))
+        results = self.cursor.fetchone()
+        if results:
+            old_tags = results[1]
+            old_tags = old_tags.split(',')
+            old_tags = sorted(old_tags)
+            tag_set = sorted(tag_set)
+            final_tags = merge_no_dupes(tag_set,old_tags)
+            final_tags_str = ','.join(final_tags)
+            query = "UPDATE bookmarks SET tags = ? WHERE url = ?"
+
+            self.cursor.execute(query,(final_tags_str,url))
+
+        else:
+            logger.error("No such bookmark exists")
+            return -1
+
+        return url
+
+
     def fetch_title_bookmark(self,url):
         """
         Opens web page at url and fetches the title
@@ -253,8 +304,6 @@ class BukmarkerDB():
         else:
             bm_soup = BeautifulSoup(bm_req,"lxml")
             return bm_soup.title.string
-
-
 
     def read_firefox_bookmarks_db(self, dbfile="C:\\Users\\Devesh\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\x94qotzr.default-1509035816333\\places.sqlite"):
         """
