@@ -271,15 +271,50 @@ class BukmarkerDB():
             tag_set = sorted(tag_set)
             final_tags = merge_no_dupes(tag_set,old_tags)
             final_tags_str = ','.join(final_tags)
+            logger.debug(final_tags_str)
             query = "UPDATE bookmarks SET tags = ? WHERE url = ?"
 
             self.cursor.execute(query,(final_tags_str,url))
-
+            if self.cursor.rowcount == 1:
+                logger.debug("bookmark updated")
+                self.conn.commit()
         else:
             logger.error("No such bookmark exists")
             return -1
 
         return url
+
+    def delete_tags(self,url,tags):
+        """
+        Deletes specified tags of given url
+        :param url:
+        :param tags: Comma-separated string
+        :return: -1 if unsuccessful
+        """
+        tag_set = tags.strip("\n ").split(",")
+        if url is None:
+            logger.error("url is blank")
+            return -1
+
+        self.cursor.execute("SELECT url,tags from bookmarks where url = ?", (url,))
+        results = self.cursor.fetchone()
+        if results:
+            fetched_tags = results[1]
+            for tag in tag_set:
+                fetched_tags.replace(tag,"")
+            logger.debug(tag_set)
+            query = "UPDATE bookmarks SET tags = ? WHERE url = ?"
+
+            self.cursor.execute(query, (fetched_tags, url))
+            if self.cursor.rowcount == 1:
+                logger.debug("bookmark with tags {} deleted".format(fetched_tags))
+                self.conn.commit()
+        else:
+            logger.error("No bookmark returned to delete tags from")
+            return -1
+
+        return url
+
 
 
     def fetch_title_bookmark(self,url):

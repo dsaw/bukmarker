@@ -105,3 +105,13 @@ Traceback (most recent call last):
   File "C:\Users\Devesh\Programming Haven\python3\bukmarker\bukmarker.py", line 221, in modify_bookmark_db
     self.cursor.execute(query,params)
 sqlite3.OperationalError: near "last_modified": syntax error
+2017-12-20 21:57:52,668 - append_tags -  google,larry,query,search,sergey
+2017-12-20 22:45:43,584 - append_tags -  google,larry,query,search,sergey
+2017-12-20 22:45:43,646 - append_tags -  bookmark updated
+2017-12-20 22:48:49,478 - append_tags -  google,larry,query,search,sergey
+2017-12-20 22:48:49,509 - append_tags -  bookmark updated
+2017-12-20 23:45:33,926 - delete_tags -  bookmark with tags google,larry,query,search,sergey deleted
+2017-12-20 23:53:22,566 - delete_tags -  google,larry,query,search,sergey
+2017-12-20 23:53:22,613 - delete_tags -  bookmark with tags google,larry,query,search,sergey deleted
+2017-12-20 23:53:54,326 - delete_tags -  ['larry', 'sergey']
+2017-12-20 23:53:54,329 - delete_tags -  bookmark with tags google,larry,query,search,sergey deleted

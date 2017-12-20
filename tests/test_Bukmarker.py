@@ -145,6 +145,14 @@ class TestImports(unittest.TestCase):
         ## TODO: use get_tags to check
         self.assertEqual(ret,"www.google.com")
 
+    def test_delete_tags(self):
+        """
+        tests by deleting tags
+        :return:
+        """
+        tags_to_delete = "larry,sergey"
+        ret = self.bukmarker.delete_tags("www.google.com",tags_to_delete)
+        self.assertEqual(ret,"www.google.com")
 
 
 #temporary
