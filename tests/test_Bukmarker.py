@@ -154,7 +154,6 @@ class TestImports(unittest.TestCase):
         ret = self.bukmarker.delete_tags("www.google.com",tags_to_delete)
         self.assertEqual(ret,"www.google.com")
 
-
 #temporary
 if __name__ == "main":
 

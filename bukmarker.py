@@ -272,9 +272,9 @@ class BukmarkerDB():
             final_tags = merge_no_dupes(tag_set,old_tags)
             final_tags_str = ','.join(final_tags)
             logger.debug(final_tags_str)
-            query = "UPDATE bookmarks SET tags = ? WHERE url = ?"
+            query = "UPDATE bookmarks SET tags = ?,last_modified = ? WHERE url = ?"
 
-            self.cursor.execute(query,(final_tags_str,url))
+            self.cursor.execute(query,(final_tags_str,datetime.datetime.now(),url))
             if self.cursor.rowcount == 1:
                 logger.debug("bookmark updated")
                 self.conn.commit()
@@ -301,13 +301,14 @@ class BukmarkerDB():
         if results:
             fetched_tags = results[1]
             for tag in tag_set:
-                fetched_tags.replace(tag,"")
-            logger.debug(tag_set)
-            query = "UPDATE bookmarks SET tags = ? WHERE url = ?"
+                fetched_tags = fetched_tags.replace("," + tag,"",1)
 
-            self.cursor.execute(query, (fetched_tags, url))
+            query = "UPDATE bookmarks SET tags = ?, last_modified  = ? WHERE url = ?"
+
+            nowtime = datetime.datetime.now()
+            self.cursor.execute(query, (fetched_tags,nowtime, url))
             if self.cursor.rowcount == 1:
-                logger.debug("bookmark with tags {} deleted".format(fetched_tags))
+                logger.debug("bookmark with tags {0} deleted".format(fetched_tags))
                 self.conn.commit()
         else:
             logger.error("No bookmark returned to delete tags from")
