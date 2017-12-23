@@ -250,7 +250,6 @@ class BukmarkerDB():
             logger.exception("{}".format(e))
             return -1
 
-
     def append_tags(self,url,tag_set):
         """
         Appends new tags passed in to bookmark record.
@@ -272,9 +271,9 @@ class BukmarkerDB():
             final_tags = merge_no_dupes(tag_set,old_tags)
             final_tags_str = ','.join(final_tags)
             logger.debug(final_tags_str)
-            query = "UPDATE bookmarks SET tags = ? WHERE url = ?"
+            query = "UPDATE bookmarks SET tags = ?,last_modified = ? WHERE url = ?"
 
-            self.cursor.execute(query,(final_tags_str,url))
+            self.cursor.execute(query,(final_tags_str,datetime.datetime.now(),url))
             if self.cursor.rowcount == 1:
                 logger.debug("bookmark updated")
                 self.conn.commit()
@@ -299,15 +298,19 @@ class BukmarkerDB():
         self.cursor.execute("SELECT url,tags from bookmarks where url = ?", (url,))
         results = self.cursor.fetchone()
         if results:
-            fetched_tags = results[1]
+            fetched_tags = results[1].strip(" ,")
             for tag in tag_set:
-                fetched_tags.replace(tag,"")
-            logger.debug(tag_set)
-            query = "UPDATE bookmarks SET tags = ? WHERE url = ?"
+                if fetched_tags.find(tag) == 0:
+                    fetched_tags = fetched_tags = fetched_tags.replace(tag + ",","",1)
+                else:
+                    fetched_tags = fetched_tags.replace("," + tag,"",1)
 
-            self.cursor.execute(query, (fetched_tags, url))
+            query = "UPDATE bookmarks SET tags = ?, last_modified  = ? WHERE url = ?"
+
+            nowtime = datetime.datetime.now()
+            self.cursor.execute(query, (fetched_tags,nowtime, url))
             if self.cursor.rowcount == 1:
-                logger.debug("bookmark with tags {} deleted".format(fetched_tags))
+                logger.debug("bookmark with tags {0} deleted".format(fetched_tags))
                 self.conn.commit()
         else:
             logger.error("No bookmark returned to delete tags from")

@@ -150,10 +150,15 @@ class TestImports(unittest.TestCase):
         tests by deleting tags
         :return:
         """
-        tags_to_delete = "larry,sergey"
+        tags_to_delete = "google,larry,sergey"
         ret = self.bukmarker.delete_tags("www.google.com",tags_to_delete)
         self.assertEqual(ret,"www.google.com")
 
+    def test_delete_first_last_tag(self):
+        """
+
+        :return:
+        """
 
 #temporary
 if __name__ == "main":

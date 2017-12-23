@@ -115,3 +115,22 @@ sqlite3.OperationalError: near "last_modified": syntax error
 2017-12-20 23:53:22,613 - delete_tags -  bookmark with tags google,larry,query,search,sergey deleted
 2017-12-20 23:53:54,326 - delete_tags -  ['larry', 'sergey']
 2017-12-20 23:53:54,329 - delete_tags -  bookmark with tags google,larry,query,search,sergey deleted
+2017-12-21 23:39:04,318 - delete_tags -  ['larry', 'sergey']
+2017-12-21 23:39:04,365 - delete_tags -  bookmark with tags google,larry,query,search,sergey deleted
+2017-12-21 23:40:10,151 - delete_tags -  ['larry', 'sergey']
+2017-12-21 23:40:10,308 - delete_tags -  bookmark with tags google,larry,query,search,sergey deleted
+2017-12-21 23:48:56,668 - delete_tags -  ['larry', 'sergey']
+2017-12-21 23:48:56,684 - delete_tags -  bookmark with tags google,larry,query,search,sergey deleted
+2017-12-23 16:43:55,734 - delete_tags -  ['larry', 'sergey']
+2017-12-23 16:43:55,796 - delete_tags -  bookmark with tags google,larry,query,search,sergey deleted
+2017-12-23 16:55:49,467 - delete_tags -  bookmark with tags google,query,search deleted
+2017-12-23 17:22:45,778 - append_tags -  google,larry,query,search,sergey
+2017-12-23 17:22:45,825 - append_tags -  bookmark updated
+2017-12-23 17:23:05,975 - delete_tags -  bookmark with tags google,query,search deleted
+2017-12-23 17:28:35,164 - append_tags -  google,larry,query,search,sergey
+2017-12-23 17:28:35,196 - append_tags -  bookmark updated
+2017-12-23 17:28:48,123 - delete_tags -  bookmark with tags google,,query,search, deleted
+2017-12-23 17:29:38,843 - append_tags -  ,google,larry,query,search,sergey
+2017-12-23 17:29:38,846 - append_tags -  bookmark updated
+2017-12-23 17:30:44,204 - delete_tags -  bookmark with tags ,query,search deleted
+2017-12-23 17:31:40,655 - delete_tags -  bookmark with tags query,search deleted
