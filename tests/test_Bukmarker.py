@@ -154,6 +154,7 @@ class TestImports(unittest.TestCase):
         ret = self.bukmarker.delete_tags("www.google.com",tags_to_delete)
         self.assertEqual(ret,"www.google.com")
 
+
     def test_delete_first_last_tag(self):
         """
 
@@ -168,6 +169,7 @@ class TestImports(unittest.TestCase):
         """
         ret = self.bukmarker.search_by_url("www.google.com")
         self.assertEquals(ret['url'],'www.google.com')
+
 
 
 #temporary

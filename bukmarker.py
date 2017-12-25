@@ -298,12 +298,11 @@ class BukmarkerDB():
             fetched_tags = results[1].strip(" ,")
             for tag in tag_set:
                 if fetched_tags.find(tag) == 0:
-                    fetched_tags = fetched_tags = fetched_tags.replace(tag + ",","",1)
+                    fetched_tags = fetched_tags.replace(tag + ",","",1)
                 else:
                     fetched_tags = fetched_tags.replace("," + tag,"",1)
 
             query = "UPDATE bookmarks SET tags = ?, last_modified  = ? WHERE url = ?"
-
             nowtime = datetime.datetime.now()
             self.cursor.execute(query, (fetched_tags,nowtime, url))
             if self.cursor.rowcount == 1:
