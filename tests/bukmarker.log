@@ -134,3 +134,7 @@ sqlite3.OperationalError: near "last_modified": syntax error
 2017-12-23 17:29:38,846 - append_tags -  bookmark updated
 2017-12-23 17:30:44,204 - delete_tags -  bookmark with tags ,query,search deleted
 2017-12-23 17:31:40,655 - delete_tags -  bookmark with tags query,search deleted
+2017-12-25 18:42:58,967 - search_by_url -  ('www.google.com', 'Google', 'query,search', 'No description required', datetime.datetime(2017, 12, 23, 17, 31, 40, 561559))
+2017-12-25 23:28:10,502 - search_by_url -  ('www.google.com', 'Google', 'query,search', 'No description required', datetime.datetime(2017, 12, 23, 17, 31, 40, 561559))
+2017-12-25 23:30:39,678 - search_by_url -  <sqlite3.Row object at 0x000001E19EFE77B0>
+2017-12-25 23:31:11,352 - search_by_url -  <sqlite3.Row object at 0x000001DF328677B0>

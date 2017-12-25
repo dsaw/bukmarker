@@ -39,8 +39,6 @@ def merge_no_dupes(*iterables):
 # https://codereview.stackexchange.com/questions/108171/merge-two-list-and-discarding-duplicates
 
 
-
-
 # Bukmarker - cmd bookmarking application - integrates with browser bookmarks in one place.
 
 class BukmarkerDB():
@@ -51,6 +49,7 @@ class BukmarkerDB():
         else:
             self.dbfile = dbfile
         self.conn = sqlite3.connect(self.dbfile, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
+        self.conn.row_factory = sqlite3.Row
         self.cursor = self.conn.cursor()
 
 
@@ -119,7 +118,6 @@ class BukmarkerDB():
             return -1
         else:
             return url
-
 
     # TODO: option to replace existing bookmark
     def add_bookmark_db(self,url,title="", tags="", description="", delay_commit=False):
@@ -235,7 +233,6 @@ class BukmarkerDB():
         query = query.strip(" ")
         query += " last_modified = ?  WHERE url = ?;"
 
-
         try:
             self.cursor.execute(query,params)
             if self.cursor.rowcount == 1:
@@ -318,7 +315,23 @@ class BukmarkerDB():
 
         return url
 
+    def search_by_url(self,url):
+        """
+        Searches record by url and returns record
+        :param url:
+        :return: tuple of bookmark
+        """
+        if url is None:
+            logger.error("url is blank")
+            return -1
 
+        query = "SELECT * FROM bookmarks WHERE url = ? "
+        self.cursor.execute(query,(url,))
+        results = self.cursor.fetchone()
+        if results:
+            logger.debug(tuple(results))
+            return results
+        return -1
 
     def fetch_title_bookmark(self,url):
         """

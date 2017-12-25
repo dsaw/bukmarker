@@ -159,6 +159,16 @@ class TestImports(unittest.TestCase):
 
         :return:
         """
+        pass
+
+    def test_search_by_url(self):
+        """
+        Tests if bookmark with url exists
+
+        """
+        ret = self.bukmarker.search_by_url("www.google.com")
+        self.assertEquals(ret['url'],'www.google.com')
+
 
 #temporary
 if __name__ == "main":
