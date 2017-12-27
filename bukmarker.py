@@ -332,6 +332,21 @@ class BukmarkerDB():
             return results
         return -1
 
+
+    def print_rec(self,row):
+        """
+        Prints bookmark record for display
+        :param row: Sqlite3 row object
+        :return:
+        """
+
+        print("url {0:30}".format(row["url"]))
+        print("- {0}".format(row["title"]))
+        print("> {}".format(row["tags"]))
+        print("+ {}".format(row["description"]))
+
+
+
     def fetch_title_bookmark(self,url):
         """
         Opens web page at url and fetches the title
