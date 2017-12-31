@@ -332,6 +332,41 @@ class BukmarkerDB():
             return results
         return -1
 
+    def parse_tags(self,keywords=[]):
+        """
+        Parse list of keywords and returns delimited list
+        :param keywords: list, optional
+            List of tags to parse
+        :return: None, if keywords is None
+            ',', if keywords is an empty list
+
+        """
+
+        if keywords is None:
+            return None
+
+        if not keywords:
+            return ','
+
+        tagstr = ','.join(keywords)
+
+        marker = tagstr.find(",")
+        finallist = []
+        while marker != -1:
+            finallist.append(tagstr[:marker].strip())
+            tagstr = tagstr[marker+1:]
+            marker = tagstr.find(",")
+
+        finalstr = ','.join(sorted(set(finallist)))
+        return finalstr
+
+
+
+    def search_by_tags(self):
+        """
+        Searches record by tags
+        """
+
 
     def print_rec(self,row):
         """
@@ -413,7 +448,6 @@ class BukmarkerDB():
         :param json_obj:
         :return:
         """
-
         data = json_obj["roots"]
         return data
 

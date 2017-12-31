@@ -169,7 +169,17 @@ class TestImports(unittest.TestCase):
         """
         ret = self.bukmarker.search_by_url("www.google.com")
         self.assertEquals(ret['url'],'www.google.com')
+        self.bukmarker.print_rec(ret)
 
+    def test_parse_tags(self):
+        """
+        Tests if the tag list is cleaned and joined
+        :return:
+        """
+
+        tag_list = ["seo ", "google ","dark   ",   "seo", "   dark"]
+        ret_str = self.bukmarker.parse_tags(tag_list)
+        self.assertEqual(ret_str,"dark,google,seo")
 
 
 #temporary
