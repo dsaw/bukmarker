@@ -181,6 +181,19 @@ class TestImports(unittest.TestCase):
         ret_str = self.bukmarker.parse_tags(tag_list)
         self.assertEqual(ret_str,"dark,google,seo")
 
+    def test_prep_tags(self):
+        """"
+        Tests if the prepping tag list func is working properly
+        """
+
+        tags_str1 = "d+a+b+a+c"
+        tags_str2 = "ant,aunt,ars,anderson"
+        tags_str3 = "an,o+2"
+
+        self.assertEqual('+',self.bukmarker.prep_tags(tags_str1)[1])
+        self.assertEqual('|', self.bukmarker.prep_tags(tags_str2)[1])
+        self.assertEqual(-1, self.bukmarker.prep_tags(tags_str3))
+
 
 #temporary
 if __name__ == "main":

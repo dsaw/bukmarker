@@ -360,6 +360,29 @@ class BukmarkerDB():
         finalstr = ','.join(sorted(set(finallist)))
         return finalstr
 
+    def prep_tags(self, tagstr):
+        """"
+        Processes tag string and returns list of tags and type of search operator
+        :param tagstr: str
+        :return: (taglist,searchop)
+        """
+        if '+' in tagstr and ',' in tagstr:
+            logger.error("Both and & or not allowed")
+            return -1
+
+        if '+' in tagstr:
+            taglist = tagstr.split('+')
+            searchop = '+'
+        else:
+            taglist = tagstr.split(',')
+            searchop = '|'
+
+        # clean list of tags
+        taglist = list(map( lambda s : s.strip(), taglist))
+
+        return (taglist,searchop)
+
+
 
 
     def search_by_tags(self):
