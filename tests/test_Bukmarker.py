@@ -194,6 +194,20 @@ class TestImports(unittest.TestCase):
         self.assertEqual('|', self.bukmarker.prep_tags(tags_str2)[1])
         self.assertEqual(-1, self.bukmarker.prep_tags(tags_str3))
 
+    def test_search_tags(self):
+        """
+        Tests if the tags are searched correctly
+
+        """
+        mock_or_tags = "query|bm"
+        mock_and_tags = "query+search"
+        retor = self.bukmarker.search_by_tags(mock_or_tags)
+        retand = self.bukmarker.search_by_tags(mock_and_tags)
+        self.assertEqual(2,len(retor))
+        self.assertEqual("www.google.com",retand[0][0])
+
+
+
 
 #temporary
 if __name__ == "main":

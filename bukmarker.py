@@ -7,6 +7,8 @@ import platform
 import datetime
 from urllib.request import urlopen
 from urllib.error import HTTPError,URLError
+
+import re
 from bs4 import BeautifulSoup
 from heapq import merge
 
@@ -367,7 +369,7 @@ class BukmarkerDB():
         :return: (taglist,searchop)
         """
         if '+' in tagstr and ',' in tagstr:
-            logger.error("Both and & or not allowed")
+            logger.error("Both and & are not allowed")
             return -1
 
         if '+' in tagstr:
@@ -382,14 +384,30 @@ class BukmarkerDB():
 
         return (taglist,searchop)
 
-
-
-
-    def search_by_tags(self):
+    def search_by_tags(self,tags):
         """
         Searches record by tags
+        Uses regex
+        :param tags: string separated by either | or +
+        :return: list of results
         """
 
+        (taglist,searchop) = self.prep_tags(tags)
+
+        search_query = r''
+        def regexp(y,x,search = re.search):
+            return 1 if search(y,x) else 0
+        self.conn.create_function('regexp',2,regexp)
+
+        if searchop == '+':
+            wrappedtags = map( lambda s : r'(?=.*' + s + r')', taglist)
+            search_query = r''.join(wrappedtags)
+        else:
+            wrappedtags = map( lambda s: r'(?=' + s + r')',taglist)
+            search_query = r'|'.join(wrappedtags)
+
+        res = self.cursor.execute('SELECT url,title FROM bookmarks WHERE tags REGEXP ?', (search_query,))
+        return res.fetchall()
 
     def print_rec(self,row):
         """
