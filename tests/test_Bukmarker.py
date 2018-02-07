@@ -18,7 +18,7 @@ class TestImports(unittest.TestCase):
         self.bukmarker = bukmarker.BukmarkerDB()
         logfile_path = os.path.abspath(os.path.dirname(os.path.__file__))
         logfilename = os.path.join(logfile_path, "..\bukmarker.log")
-        self.chrome_bm = self.bukmarker.load_chrome_bookmarks(self.bukmarker.read_json_bookmarks())
+        self.chrome_bm = self.bukmarker.ret_chrome_bookmarks(self.bukmarker.read_json_bookmarks())
         logging.basicConfig(filename='bukmarker.log', level=logging.DEBUG)
 
     def tearDown(self):
@@ -38,6 +38,14 @@ class TestImports(unittest.TestCase):
                     logging.debug("{name} : {url} ".format(name=bm.get("name"), url=bm.get("url")))
 
         self.assertGreater(len(bm_list),0)
+
+    def test_chrome_import(self):
+        """
+        Test case for importing bookmarks from chrome
+        """
+
+        count_entries = self.bukmarker.load_chrome_bookmarks()
+        self.assertGreater(count_entries, 0)
 
     def test_firefox_import(self):
         """

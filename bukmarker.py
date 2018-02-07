@@ -483,7 +483,7 @@ class BukmarkerDB():
 
         return bm_json
 
-    def load_chrome_bookmarks(self, json_obj):
+    def ret_chrome_bookmarks(self, json_obj):
         """
          Gets bookmarks from json object
         :param json_obj:
@@ -535,6 +535,24 @@ class BukmarkerDB():
                 logger.debug("Folder traversed : {0}".format(item['name']))
             elif item['type'] == 'url':
                 yield item
+
+    def load_chrome_bookmarks(self):
+        '''
+        Loads chrome bookmarks from json file and stores in db
+        :return:
+        no. of entries loaded
+        '''
+        chrome_bm = self.ret_chrome_bookmarks(self.read_json_bookmarks())
+        count = 0
+
+        for bkey, bval in chrome_bm.items():
+            if bval["type"] == "folder":
+                logging.info("Bookmark Folder - {0}".format(bkey))
+                for bm in self.traverse_bm_folder(bval["children"], bval["name"]):
+                    logging.debug("{name} : {url} ".format(name=bm.get("name"), url=bm.get("url")))
+                    self.add_bookmark_db(bm.get("url"),bm.get("name"))
+                    count+=1
+        return count
 
 
 if __name__ == "__main__":
