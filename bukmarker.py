@@ -493,7 +493,7 @@ class BukmarkerDB():
         return data
 
     def get_folder_bookmark_list(self, json_folder):
-        """ Extracts children list from boookmark folder object
+        """ Extracts children list from bookmark folder object
 
         -----
         :param json_folder : dict
@@ -531,7 +531,8 @@ class BukmarkerDB():
         # recursive yield of url
         for item in child_sublist:
             if item['type'] == 'folder':
-                self.traverse_bm_folder(item['children'], item['name'])
+                for subitem in self.traverse_bm_folder(item['children'], item['name']):
+                    yield subitem
                 logger.debug("Folder traversed : {0}".format(item['name']))
             elif item['type'] == 'url':
                 yield item

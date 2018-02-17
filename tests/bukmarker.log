@@ -207,3 +207,53 @@ sqlite3.OperationalError: near "last_modified": syntax error
 2018-02-07 23:05:28,510 - traverse_bm_folder -  Folder traversed : maintenance
 2018-02-07 23:05:28,510 - traverse_bm_folder -  Folder traversed : android_shenaginans
 2018-02-07 23:05:28,510 - traverse_bm_folder -  Folder traversed : speech
+2018-02-17 23:17:28,115 - add_bookmark_db -  url already exists
+2018-02-17 23:17:29,849 - traverse_bm_folder -  Folder traversed : security_hackers
+2018-02-17 23:17:33,270 - traverse_bm_folder -  Folder traversed : AI
+2018-02-17 23:17:34,630 - traverse_bm_folder -  Folder traversed : java
+2018-02-17 23:17:35,743 - traverse_bm_folder -  Folder traversed : webapp
+2018-02-17 23:17:41,459 - traverse_bm_folder -  Folder traversed : rasppi
+2018-02-17 23:17:43,522 - traverse_bm_folder -  Folder traversed : algocourse
+2018-02-17 23:17:44,958 - traverse_bm_folder -  Folder traversed : ML
+2018-02-17 23:17:47,913 - traverse_bm_folder -  Folder traversed : productivity
+2018-02-17 23:17:49,376 - traverse_bm_folder -  Folder traversed : py
+2018-02-17 23:17:51,726 - add_bookmark_db -  url already exists
+2018-02-17 23:17:51,726 - traverse_bm_folder -  Folder traversed : C++
+2018-02-17 23:17:51,726 - add_bookmark_db -  url already exists
+2018-02-17 23:17:51,726 - add_bookmark_db -  url already exists
+2018-02-17 23:17:51,726 - add_bookmark_db -  url already exists
+2018-02-17 23:17:52,168 - traverse_bm_folder -  Folder traversed : UML_smd
+2018-02-17 23:17:52,995 - traverse_bm_folder -  Folder traversed : git
+2018-02-17 23:17:53,707 - traverse_bm_folder -  Folder traversed : startups
+2018-02-17 23:17:53,707 - add_bookmark_db -  url already exists
+2018-02-17 23:17:53,707 - add_bookmark_db -  url already exists
+2018-02-17 23:17:53,707 - add_bookmark_db -  url already exists
+2018-02-17 23:17:53,707 - add_bookmark_db -  url already exists
+2018-02-17 23:18:00,575 - traverse_bm_folder -  Folder traversed : MUN
+2018-02-17 23:18:01,155 - traverse_bm_folder -  Folder traversed : beproj
+2018-02-17 23:18:02,128 - traverse_bm_folder -  Folder traversed : bioinformatics
+2018-02-17 23:18:02,128 - add_bookmark_db -  url already exists
+2018-02-17 23:18:05,295 - traverse_bm_folder -  Folder traversed : ProgrammingJewel
+2018-02-17 23:18:09,378 - traverse_bm_folder -  Folder traversed : MScPlan
+2018-02-17 23:18:10,929 - traverse_bm_folder -  Folder traversed : maintenance
+2018-02-17 23:18:11,194 - traverse_bm_folder -  Folder traversed : android_shenaginans
+2018-02-17 23:18:11,741 - traverse_bm_folder -  Folder traversed : speech
+2018-02-17 23:18:11,741 - add_bookmark_db -  url already exists
+2018-02-17 23:18:11,741 - add_bookmark_db -  url already exists
+2018-02-17 23:18:11,741 - add_bookmark_db -  url already exists
+2018-02-17 23:18:11,741 - add_bookmark_db -  url already exists
+2018-02-17 23:18:11,741 - add_bookmark_db -  url already exists
+2018-02-17 23:18:11,741 - add_bookmark_db -  url already exists
+2018-02-17 23:18:11,756 - add_bookmark_db -  url already exists
+2018-02-17 23:18:11,756 - add_bookmark_db -  url already exists
+2018-02-17 23:18:11,756 - add_bookmark_db -  url already exists
+2018-02-17 23:18:11,756 - add_bookmark_db -  url already exists
+2018-02-17 23:18:11,756 - add_bookmark_db -  url already exists
+2018-02-17 23:18:11,756 - add_bookmark_db -  url already exists
+2018-02-17 23:18:11,756 - add_bookmark_db -  url already exists
+2018-02-17 23:18:11,756 - add_bookmark_db -  url already exists
+2018-02-17 23:18:11,756 - add_bookmark_db -  url already exists
+2018-02-17 23:18:11,756 - add_bookmark_db -  url already exists
+2018-02-17 23:18:11,756 - add_bookmark_db -  url already exists
+2018-02-17 23:18:11,756 - add_bookmark_db -  url already exists
+2018-02-17 23:18:11,756 - add_bookmark_db -  url already exists
