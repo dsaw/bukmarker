@@ -449,6 +449,7 @@ class BukmarkerDB():
     def read_firefox_bookmarks_db(self, dbfile="C:\\Users\\Devesh\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\x94qotzr.default-1509035816333\\places.sqlite"):
         """
         Reads bookmark places.sqlite file and stores it as a bookmark dictionary
+        Adds each bookmark to db
         :param dbfile:
         :return: dict: key is url, value is another dict
         """
@@ -471,9 +472,13 @@ class BukmarkerDB():
         for row in c.fetchall():
             res = c.execute("SELECT url FROM 'moz_places' where id={}".format(row[0]))
             res = res.fetchone()
+            if row[2] is None:
+                logger.error('Null titled bookmarks fails constraint')
+                continue
             bm[res[0]] = {"title": row[2], "tags": [folder_bm[row[1]]]}   # parent folder title as tag
+            self.add_bookmark_db(res[0],row[2],row[1])
 
-        print(bm)
+        logger.debug('No. of items added from firefox db- {} '.format(len(bm)))
         return bm
 
     def read_json_bookmarks(self, filename="C:\\Users\Devesh\AppData\Local\Google\Chrome\\User Data\Default\Bookmarks"):
