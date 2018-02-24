@@ -214,7 +214,16 @@ class TestImports(unittest.TestCase):
         self.assertEqual(2,len(retor))
         self.assertEqual("www.google.com",retand[0][0])
 
+    def test_export_html(self):
+        '''
+        Tests if the html generated file has the correct no. of bookmarks
+        :return:
+        '''
 
+        filename = 'bukmarker.html'
+        exported_count = self.bukmarker.exportdb(filename)
+        count = self.bukmarker.count_bookmarks
+        self.assertEqual(count,exported_count)
 
 
 #temporary

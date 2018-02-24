@@ -5,6 +5,7 @@ import logging
 import os
 import platform
 import datetime
+import time
 from urllib.request import urlopen
 from urllib.error import HTTPError,URLError
 
@@ -558,6 +559,55 @@ class BukmarkerDB():
                     logging.debug("{name} : {url} ".format(name=bm.get("name"), url=bm.get("url")))
                     self.add_bookmark_db(bm.get("url"),bm.get("name"))
                     count+=1
+        return count
+
+    def exportdb(self,filepath):
+        '''
+        Exports bookmarks database to given formats
+        if filepath ends with '.htm', export to Firefox formatted html file
+        :return:
+         Count of bookmarks exported
+        '''
+
+        outfp = open(filepath,'w')
+        count = 0
+        timestamp = time.mktime(datetime.datetime.now().timetuple())
+        query = "SELECT * FROM bookmarks"
+        self.cursor.execute(query)
+        results = self.cursor.fetchall()
+        outs = ''
+
+        # run query on all bookmarks
+        if filepath.endswith('.htm') or filepath.endswith('.html'):
+            outfp.write('<!DOCTYPE NETSCAPE-Bookmark-file-1>\n'
+                        '<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">\n'
+                        '<TITLE>Bookmarks</TITLE> <H1>Bookmarks</H1>\n'
+                        '<DL> <p> '
+                        '    <DT> <h3 ADD_DATE="{}" LAST_MODIFIED="{}" > Bukmarker bookmarks </h3>\n'
+                        '<DL> <p>\n'
+                        .format(timestamp,timestamp))
+
+            for row in results:
+                outs += '<DT> <A HREF="{0}" ADD_DATE="{1}" LAST_MODIFIED="{1}" > {2} </A>\n'.format(row[0],row[4],row[1])
+                count += 1
+
+            outs += '</DL> <p>\n </DL>\n'
+
+            outfp.write(outs)
+
+        outfp.close()
+        print('{} exported'.format(count))
+        return count
+
+    @property
+    def count_bookmarks(self):
+        ''''
+        :return
+        integer representing count
+        '''
+
+        self.cursor.execute('SELECT COUNT(*) FROM bookmarks')
+        count = self.cursor.fetchone()[0]
         return count
 
 
