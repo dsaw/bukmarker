@@ -1,9 +1,11 @@
 
+import argparse
 import json
 import sqlite3
 import logging
 import os
 import platform
+import sys
 import datetime
 import time
 from urllib.request import urlopen
@@ -24,7 +26,7 @@ filh.setFormatter(formatter)
 logger.addHandler(filh)
 
 __version__ = '0.0.1'
-__name__ = 'Devesh Sawant @dsaw'
+__author__ = 'Devesh Sawant @dsaw'
 
 def merge_no_dupes(*iterables):
     """
@@ -42,7 +44,8 @@ def merge_no_dupes(*iterables):
 # https://codereview.stackexchange.com/questions/108171/merge-two-list-and-discarding-duplicates
 
 
-# Bukmarker - cmd bookmarking application - integrates with browser bookmarks in one place.
+# Bukmarker - cmd bookmarking application - integrates with browser
+# bookmarks in one place.
 
 class BukmarkerDB():
 
@@ -610,9 +613,63 @@ class BukmarkerDB():
         count = self.cursor.fetchone()[0]
         return count
 
+# helper function for argument parser
+def create_parser():
+    '''
+    Creates a custom parser which can be modified later
+    :return:
+    '''
+    parser = argparse.ArgumentParser()
+    return parser
+
+
+def parse_args(args):
+    '''
+    Parses given list of args in a newly created parser
+    :param args: list of passed in arguments
+    :return:
+    Namespace object - information of parsed arguments
+    '''
+    parser = create_parser()
+    # add args
+    return parser.parse_args(args)
+
+
+
+
+def main():
+    '''
+    Command line front end
+    '''
+
+    arglist = sys.argv[1:]
+
+    parser = argparse.ArgumentParser(usage='bukmarker - command line bookmark manager that makes organizing your bookmarks easy',description='-a,--add ')
+
+    # add with url,title,description
+    parser.add_argument('-a','--add',nargs='+')
+    # tags
+    parser.add_argument('-t','--tags',nargs='+')
+
+    args = parser.parse_args(arglist)
+    print(args)
+    if args.add is not None:
+        url = args.add[0]
+        print(url)
+        if len(args.add) == 2:
+            title = args.add[1]
+            print(title)
+        if len(args.add) == 3:
+            desc = args.add[2]
+            print(desc)
+
+
+
 
 if __name__ == "__main__":
     #chrome_bm = load_chrome_bookmarks(read_json_bookmarks())
+
+    main()
     pass
     # iterate over json
     # for bkey,bval in chrome_bm.items():
