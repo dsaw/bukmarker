@@ -11,5 +11,5 @@ class ArgParserTest(unittest.TestCase):
     '''
 
     def setUp(self):
-        self.parser = create_parser()
+        self.parser = bukmarker.create_parser()
 
