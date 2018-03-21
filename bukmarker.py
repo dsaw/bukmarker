@@ -193,7 +193,7 @@ class BukmarkerDB():
 
         :param title:
         :param tags_in: string
-                tags should be comma separated in the string
+                tags should be comma separated string
         :param description:
         :return: -1 if unsuccessful
         """
@@ -363,28 +363,26 @@ class BukmarkerDB():
             tagstr = tagstr[marker+1:]
             marker = tagstr.find(",")
 
+        if tagstr is not '':
+            finallist.append(tagstr.strip())
+
         finalstr = ','.join(sorted(set(finallist)))
         return finalstr
 
-    def prep_tags(self, tagstr):
+    def prep_tags(self, taglist):
         """"
-        Processes tag string and returns list of tags and type of search operator
-        :param tagstr: str
+        Processes tag list and returns list of tags and type of search operator
+        :param taglist: list[]
         :return: (taglist,searchop)
         """
-        if '+' in tagstr and ',' in tagstr:
+        searchop = taglist[0]
+        if '+' in taglist and '|' in taglist:
             logger.error("Both and & are not allowed")
             return -1
 
-        if '+' in tagstr:
-            taglist = tagstr.split('+')
-            searchop = '+'
-        else:
-            taglist = tagstr.split(',')
-            searchop = '|'
 
         # clean list of tags
-        taglist = list(map( lambda s : s.strip(), taglist))
+        taglist = list(map( lambda s : s.strip(), taglist[1:]))
 
         return (taglist,searchop)
 
@@ -619,7 +617,8 @@ def create_parser():
     Creates a custom parser which can be modified later
     :return:
     '''
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(usage='''bukmarker [OPTIONS] [KEYWORD [KEYWORD ...]]''',
+                                     description='''bukmarker - command line bookmark manager that makes organizing your bookmarks easy''')
     return parser
 
 
@@ -632,6 +631,13 @@ def parse_args(args):
     '''
     parser = create_parser()
     # add args
+    # add with url,title,description
+    parser.add_argument('-a', '--add', nargs='+')
+    # tags
+    parser.add_argument('-t', '--tags', nargs='+')
+    parser.add_argument('-m', '--modify', nargs='+')
+    parser.add_argument('-d', '--delete', nargs=1)
+    parser.add_argument('-s','--search',nargs=1)
     return parser.parse_args(args)
 
 
@@ -644,27 +650,45 @@ def main():
 
     arglist = sys.argv[1:]
 
-    parser = argparse.ArgumentParser(usage='bukmarker - command line bookmark manager that makes organizing your bookmarks easy',description='-a,--add ')
 
-    # add with url,title,description
-    parser.add_argument('-a','--add',nargs='+')
-    # tags
-    parser.add_argument('-t','--tags',nargs='+')
 
-    args = parser.parse_args(arglist)
+    args = parse_args(arglist)
     print(args)
+
+    bukdb = BukmarkerDB()
+
+    if args.tags is not None:
+        tags_in = bukdb.parse_tags(args.tags)
+        print(' tags : ',tags_in)
+
+
     if args.add is not None:
         url = args.add[0]
         print(url)
-        if len(args.add) == 2:
+        if len(args.add) >= 2:
             title = args.add[1]
             print(title)
         if len(args.add) == 3:
             desc = args.add[2]
             print(desc)
 
+    if args.modify is not None:
+        url = args.modify[0]
+        print(url)
+        if len(args.modify) >= 2:
+            title = args.modify[1]
+            print(title)
+        if len(args.modify) == 3:
+            desc = args.modify[2]
+            print(desc)
 
+    if args.delete is not None:
+         url = args.delete[0]
+         print('Deleted url {}'.format(url))
 
+    if args.search is not None:
+        url = args.search[0]
+        print('To search {}'.format(url))
 
 if __name__ == "__main__":
     #chrome_bm = load_chrome_bookmarks(read_json_bookmarks())

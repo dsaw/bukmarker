@@ -194,9 +194,9 @@ class TestImports(unittest.TestCase):
         Tests if the prepping tag list func is working properly
         """
 
-        tags_str1 = "d+a+b+a+c"
-        tags_str2 = "ant,aunt,ars,anderson"
-        tags_str3 = "an,o+2"
+        tags_str1 = ['+','a','b','b','c']
+        tags_str2 = "|,ant,aunt,ars,anderson".split(',')
+        tags_str3 = "|,an,+,2".split(',')
 
         self.assertEqual('+',self.bukmarker.prep_tags(tags_str1)[1])
         self.assertEqual('|', self.bukmarker.prep_tags(tags_str2)[1])

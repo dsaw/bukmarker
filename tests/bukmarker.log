@@ -582,3 +582,4 @@ sqlite3.OperationalError: near "last_modified": syntax error
 2018-02-18 23:40:42,506 - add_bookmark_db -  url already exists
 2018-02-18 23:40:42,522 - add_bookmark_db -  url already exists
 2018-02-18 23:40:42,522 - read_firefox_bookmarks_db -  No. of items added from firefox db- 164 
+2018-03-21 23:33:04,158 - prep_tags -  Both and & are not allowed
