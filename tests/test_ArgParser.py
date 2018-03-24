@@ -23,5 +23,9 @@ class ArgParserTest(unittest.TestCase):
         self.assertEqual(ns.add[0],'example.com')
         self.assertEqual(ns.add[1],'it\'an examples')
 
+
+
+
+
 if __name__ == "main":
     unittest.main(verbosity=2)

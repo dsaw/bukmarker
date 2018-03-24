@@ -207,8 +207,8 @@ class TestImports(unittest.TestCase):
         Tests if the tags are searched correctly
 
         """
-        mock_or_tags = "query|bm"
-        mock_and_tags = "query+search"
+        mock_or_tags = ['|','query','bm']
+        mock_and_tags = ['+','query','search']
         retor = self.bukmarker.search_by_tags(mock_or_tags)
         retand = self.bukmarker.search_by_tags(mock_and_tags)
         self.assertEqual(2,len(retor))

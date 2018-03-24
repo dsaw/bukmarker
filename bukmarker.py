@@ -390,7 +390,7 @@ class BukmarkerDB():
         """
         Searches record by tags
         Uses regex
-        :param tags: string separated by either | or +
+        :param tags: list of tags initiated  by either | or +
         :return: list of results
         """
 
