@@ -12,7 +12,7 @@ class ArgParserTest(unittest.TestCase):
         self.parser = create_parser()
 
 
-    def testAdd(self):
+    def test_add(self):
         '''
 
         :return:
@@ -23,6 +23,11 @@ class ArgParserTest(unittest.TestCase):
         self.assertEqual(ns.add[0],'example.com')
         self.assertEqual(ns.add[1],'it\'an examples')
 
+    def test_search_tags(self):
+        '''
+
+        :return:
+        '''
 
 
 
