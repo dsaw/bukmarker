@@ -340,7 +340,7 @@ class BukmarkerDB():
 
     def parse_tags(self,keywords=[]):
         """
-        Parse list of keywords and returns delimited list
+        Parse list of keywords and returns delimited string
         :param keywords: list, optional
             List of tags to parse
         :return: None, if keywords is None
@@ -637,7 +637,7 @@ def parse_args(args):
     parser.add_argument('-t', '--tags', nargs='+')
     parser.add_argument('-m', '--modify', nargs='+')
     parser.add_argument('-d', '--delete', nargs=1)
-    parser.add_argument('-s','--search',nargs=1)
+    parser.add_argument('-s','--search',nargs='?',const='?')
     return parser.parse_args(args)
 
 
@@ -658,9 +658,8 @@ def main():
     bukdb = BukmarkerDB()
 
     if args.tags is not None:
-        tags_in = bukdb.parse_tags(args.tags)
+        (tags_in,search_op) = bukdb.prep_tags(args.tags)
         print(' tags : ',tags_in)
-
 
     if args.add is not None:
         url = args.add[0]
@@ -687,8 +686,14 @@ def main():
          print('Deleted url {}'.format(url))
 
     if args.search is not None:
-        url = args.search[0]
-        print('To search {}'.format(url))
+
+        if args.tags is None:
+            url = args.search[0]
+            print('To search {}'.format(url))
+        else:
+            res = bukdb.search_by_tags(args.tags)
+            print(res)
+
 
 if __name__ == "__main__":
     #chrome_bm = load_chrome_bookmarks(read_json_bookmarks())
