@@ -28,9 +28,27 @@ class ArgParserTest(unittest.TestCase):
 
         :return:
         '''
+        argv = ['--search','--tags','+', 'bm', 'query']
+        ns = parse_args(argv)
+        self.assertListEqual(['+','bm','query'],ns.tags)
+        self.assertEqual('?',ns.search)
 
 
+    def test_append_tags(self):
+        '''
+        '''
 
+        argv = ['--tags','larry','sergey','--append','www.google.com']
+        ns = parse_args(argv)
+        self.assertListEqual(['larry','sergey'],ns.tags)
+        self.assertEqual('www.google.com',ns.append[0])
+
+    def test_delete_tags(self):
+        '''
+        '''
+        argv = ['--tags','larry','--delete']
+        ns = parse_args(argv)
+        
 
 if __name__ == "main":
     unittest.main(verbosity=2)

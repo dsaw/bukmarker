@@ -256,8 +256,8 @@ class BukmarkerDB():
     def append_tags(self,url,tag_set):
         """
         Appends new tags passed in to bookmark record.
-        :param url:
-        :param tag_set:
+        :param url: string
+        :param tag_set: list of given tags
         :return: -1 if unsuccessful
         """
         if url is None:
@@ -638,6 +638,7 @@ def parse_args(args):
     parser.add_argument('-m', '--modify', nargs='+')
     parser.add_argument('-d', '--delete', nargs=1)
     parser.add_argument('-s','--search',nargs='?',const='?')
+    parser.add_argument('--append',nargs=1)
     return parser.parse_args(args)
 
 
@@ -649,8 +650,6 @@ def main():
     '''
 
     arglist = sys.argv[1:]
-
-
 
     args = parse_args(arglist)
     print(args)
@@ -682,8 +681,14 @@ def main():
             print(desc)
 
     if args.delete is not None:
-         url = args.delete[0]
-         print('Deleted url {}'.format(url))
+        url = args.delete[0]
+        if args.tags is None:
+
+            res = bukdb.delete_bookmark_db(url)
+            print('Deleted url {} status {}'.format(url,res))
+        else:
+            res = bukdb.delete_tags(url,tags_in)
+            print('Deleted bookmarks with given tags')
 
     if args.search is not None:
 
@@ -693,6 +698,13 @@ def main():
         else:
             res = bukdb.search_by_tags(args.tags)
             print(res)
+
+    if args.append is not None:
+
+        if args.tags is None:
+            print('No tags specified that can be appended')
+        else:
+            res = bukdb.append_tags(args.append,args.tags)
 
 
 if __name__ == "__main__":
