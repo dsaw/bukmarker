@@ -423,8 +423,6 @@ class BukmarkerDB():
         print("> {}".format(row["tags"]))
         print("+ {}".format(row["description"]))
 
-
-
     def fetch_title_bookmark(self,url):
         """
         Opens web page at url and fetches the title
@@ -611,6 +609,7 @@ class BukmarkerDB():
         count = self.cursor.fetchone()[0]
         return count
 
+
 # helper function for argument parser
 def create_parser():
     '''
@@ -636,9 +635,14 @@ def parse_args(args):
     # tags
     parser.add_argument('-t', '--tags', nargs='+')
     parser.add_argument('-m', '--modify', nargs='+')
-    parser.add_argument('-d', '--delete', nargs=1)
+    parser.add_argument('-d', '--delete', nargs='?',const='?')
     parser.add_argument('-s','--search',nargs='?',const='?')
-    parser.add_argument('--append',nargs=1)
+    parser.add_argument('--append',nargs='?',const='?')
+
+    parser.add_argument('--ai',action='store_const',const=True)
+    parser.add_argument('--export',nargs='?',const='bukmarks.htm')
+
+
     return parser.parse_args(args)
 
 
@@ -681,14 +685,15 @@ def main():
             print(desc)
 
     if args.delete is not None:
-        url = args.delete[0]
-        if args.tags is None:
 
+        if args.tags is None:
+            url = args.delete[0]
             res = bukdb.delete_bookmark_db(url)
             print('Deleted url {} status {}'.format(url,res))
         else:
             res = bukdb.delete_tags(url,tags_in)
             print('Deleted bookmarks with given tags')
+
 
     if args.search is not None:
 
@@ -700,6 +705,9 @@ def main():
             print(res)
 
     if args.append is not None:
+        if args.append is '?':
+            print('No url passed with append')
+            return
 
         if args.tags is None:
             print('No tags specified that can be appended')

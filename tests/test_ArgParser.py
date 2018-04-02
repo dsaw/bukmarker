@@ -11,8 +11,7 @@ class ArgParserTest(unittest.TestCase):
     def setUp(self):
         self.parser = create_parser()
 
-
-    def test_add(self):
+    def test_add_tags(self):
         '''
 
         :return:
@@ -33,7 +32,6 @@ class ArgParserTest(unittest.TestCase):
         self.assertListEqual(['+','bm','query'],ns.tags)
         self.assertEqual('?',ns.search)
 
-
     def test_append_tags(self):
         '''
         '''
@@ -48,7 +46,25 @@ class ArgParserTest(unittest.TestCase):
         '''
         argv = ['--tags','larry','--delete']
         ns = parse_args(argv)
-        
+        self.assertEqual(['larry'],ns.tags)
+        self.assertEqual('?',ns.delete)
+
+
+    def test_export_bookmarks(self):
+        '''
+
+        :return:
+        '''
+
+        argv = ['--export','yama.html']
+        ns = parse_args(argv)
+        self.assertEqual('yama.html',ns.export)
+
+    def test_auto_import(self):
+        '''
+
+        '''
+        pass
 
 if __name__ == "main":
     unittest.main(verbosity=2)
