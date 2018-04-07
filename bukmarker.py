@@ -609,6 +609,51 @@ class BukmarkerDB():
         count = self.cursor.fetchone()[0]
         return count
 
+    def auto_import(self):
+        '''
+        Will import bookmarks from browsers
+        Supports Chrome & Firefox
+        :return:
+        '''
+
+        # get bookmark folder of Chrome & Firefox
+
+        FF_DB_PATH = ''
+        GC_DB_PATH = ''
+
+        if sys.platform.startswith('linux'):
+            GC_DB_PATH = '~/.config/google-chrome/Default/Bookmarks'
+
+            FIREFOX_FOLDER = os.path.expanduser('~/.mozilla/firefox/')
+            # to add firefox profile function
+            FF_DB_PATH = FIREFOX_FOLDER + get_firefox_profile_dir(FIREFOX_FOLDER)
+
+        elif sys.platform.startswith('win32'):
+            import getpass
+            username = getpass.getuser()
+
+            GC_DB_PATH = 'C:\\Users\\{}\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Bookmarks'.format(username)
+            FIREFOX_FOLDER = 'C:\\Users\\{}\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles'.format(username)
+
+            FF_DB_PATH = get_firefox_profile_dir(FIREFOX_FOLDER)
+
+def get_firefox_profile_dir(profiles_dir):
+    '''
+    Lists one(? or main) of the profile directories with .default
+    '''
+    import glob
+    PATTERN = profiles_dir + "*default-*"
+
+    profiles_list = glob.glob(PATTERN)
+    if profiles_list:
+        FF_PROF_DEFAULT = profiles_list[0]
+        return FF_PROF_DEFAULT
+
+    else:
+        return None
+
+
+
 
 # helper function for argument parser
 def create_parser():
@@ -646,8 +691,6 @@ def parse_args(args):
     return parser.parse_args(args)
 
 
-
-
 def main():
     '''
     Command line front end
@@ -665,7 +708,7 @@ def main():
         print(' tags : ',tags_in)
 
     if args.add is not None:
-        url = args.add[0]
+        url,title,desc = args.add[0],'',''
         print(url)
         if len(args.add) >= 2:
             title = args.add[1]
@@ -673,9 +716,10 @@ def main():
         if len(args.add) == 3:
             desc = args.add[2]
             print(desc)
+        bukdb.add_bookmark_db(url,title,desc)
 
     if args.modify is not None:
-        url = args.modify[0]
+        url,title,desc = args.modify[0],'',''
         print(url)
         if len(args.modify) >= 2:
             title = args.modify[1]
@@ -683,6 +727,7 @@ def main():
         if len(args.modify) == 3:
             desc = args.modify[2]
             print(desc)
+        bukdb.modify_bookmark_db(url,title,description=desc)
 
     if args.delete is not None:
 
@@ -694,9 +739,7 @@ def main():
             res = bukdb.delete_tags(url,tags_in)
             print('Deleted bookmarks with given tags')
 
-
     if args.search is not None:
-
         if args.tags is None:
             url = args.search[0]
             print('To search {}'.format(url))
