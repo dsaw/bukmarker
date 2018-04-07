@@ -225,6 +225,13 @@ class TestImports(unittest.TestCase):
         count = self.bukmarker.count_bookmarks
         self.assertEqual(count,exported_count)
 
+    def test_firefox_profile_subfolders(self):
+        '''
+        '''
+        main_ff_profile_dir = "C:\\Users\\Devesh\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\x94qotzr.default-1509035816333"
+        ret_prof_dir = bukmarker.get_firefox_profile_dir("C:\\Users\\Devesh\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\")
+
+        self.assertEqual(ret_prof_dir,main_ff_profile_dir)
 
 #temporary
 if __name__ == "main":
