@@ -542,13 +542,13 @@ class BukmarkerDB():
             elif item['type'] == 'url':
                 yield item
 
-    def load_chrome_bookmarks(self):
+    def load_chrome_bookmarks(self,filename="C:\\Users\Devesh\AppData\Local\Google\Chrome\\User Data\Default\Bookmarks"):
         '''
         Loads chrome bookmarks from json file and stores in db
         :return:
         no. of entries loaded
         '''
-        chrome_bm = self.ret_chrome_bookmarks(self.read_json_bookmarks())
+        chrome_bm = self.ret_chrome_bookmarks(self.read_json_bookmarks(filename))
         count = 0
 
         for bkey, bval in chrome_bm.items():
@@ -636,6 +636,18 @@ class BukmarkerDB():
             FIREFOX_FOLDER = 'C:\\Users\\{}\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles'.format(username)
 
             FF_DB_PATH = get_firefox_profile_dir(FIREFOX_FOLDER)
+
+
+
+        resp = input('Import from google chrome bookmarks?(Y/n)')
+
+        if resp == 'y':
+            self.load_chrome_bookmarks(GC_DB_PATH)
+
+        resp = input('Import from firefox bookmarks?(Y/n)')
+        if resp == 'y':
+            self.load_firefox_bookmarks(FF_DB_PATH)
+
 
 def get_firefox_profile_dir(profiles_dir):
     '''
