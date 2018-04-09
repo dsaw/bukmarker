@@ -60,11 +60,34 @@ class ArgParserTest(unittest.TestCase):
         ns = parse_args(argv)
         self.assertEqual('yama.html',ns.export)
 
+
     def test_auto_import(self):
         '''
 
         '''
-        pass
+        argv = ['--ai', '-ai']
+        ns = parse_args(argv)
+        self.assertTrue(ns.ai)
+
+    def test_export(self):
+        '''
+
+        :return:
+        '''
+        argv = ['--export','yesman.html','--ai']
+        ns = parse_args(argv)
+        self.assertTrue(ns.ai)
+        self.assertEqual('yesman.html',ns.export)
+
+    def test_failing_exp(self):
+        '''
+
+        :return:
+        '''
+        argv = ['--export', 'yesman.html', '--ai']
+        
+
+
 
 if __name__ == "main":
     unittest.main(verbosity=2)
