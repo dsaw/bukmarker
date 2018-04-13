@@ -189,7 +189,7 @@ class BukmarkerDB():
     def modify_bookmark_db(self,url,title=None, tags_in=None, description=None):
         """
         Updates bookmark column in table with  given attributes.
-        Will automatically fetch url from table (todo)
+        Will automatically fetch url from table
 
         :param title:
         :param tags_in: string
@@ -664,9 +664,6 @@ def get_firefox_profile_dir(profiles_dir):
     else:
         return None
 
-
-
-
 # helper function for argument parser
 def create_parser():
     '''
@@ -688,10 +685,10 @@ def parse_args(args):
     parser = create_parser()
     # add args
     # add with url,title,description
-    parser.add_argument('-a', '--add', nargs='+')
+    parser.add_argument('-a', '--add', nargs='+', help="adds new bookmark\n takes URL [title] [description] \n tags specified using -t \n")
     # tags
-    parser.add_argument('-t', '--tags', nargs='+')
-    parser.add_argument('-m', '--modify', nargs='+')
+    parser.add_argument('-t', '--tags', nargs='+',help="help specify tags separated by ,\n used in combination with --append, --modify or --delete\n")
+    parser.add_argument('-m', '--modify', nargs='+',help="modify existing bookmark URL\n Takes URL [title] [description]\n if no bookmark found, returns error\n")
     parser.add_argument('-d', '--delete', nargs='?',const='?')
     parser.add_argument('-s','--search',nargs='?',const='?')
     parser.add_argument('--append',nargs='?',const='?')
@@ -699,9 +696,7 @@ def parse_args(args):
     parser.add_argument('--ai',action='store_const',const=True)
     parser.add_argument('--export',nargs='?',const='bukmarks.htm')
 
-
     return parser.parse_args(args)
-
 
 def main():
     '''
@@ -768,6 +763,15 @@ def main():
             print('No tags specified that can be appended')
         else:
             res = bukdb.append_tags(args.append,args.tags)
+
+    if args.ai is not None:
+        bukdb.auto_import()
+
+    if args.export is not None:
+        filename = args.export
+        bukdb.exportdb(filename)
+
+
 
 
 if __name__ == "__main__":
