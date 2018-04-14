@@ -685,16 +685,15 @@ def parse_args(args):
     parser = create_parser()
     # add args
     # add with url,title,description
-    parser.add_argument('-a', '--add', nargs='+', help="adds new bookmark\n takes URL [title] [description] \n tags specified using -t \n")
+    parser.add_argument('-a', '--add', nargs='+', help="Adds new bookmark\n takes URL [title] [description] \n tags specified using -t \n")
     # tags
-    parser.add_argument('-t', '--tags', nargs='+',help="help specify tags separated by ,\n used in combination with --append, --modify or --delete\n")
-    parser.add_argument('-m', '--modify', nargs='+',help="modify existing bookmark URL\n Takes URL [title] [description]\n if no bookmark found, returns error\n")
-    parser.add_argument('-d', '--delete', nargs='?',const='?')
-    parser.add_argument('-s','--search',nargs='?',const='?')
-    parser.add_argument('--append',nargs='?',const='?')
-
-    parser.add_argument('--ai',action='store_const',const=True)
-    parser.add_argument('--export',nargs='?',const='bukmarks.htm')
+    parser.add_argument('-t', '--tags', nargs='+',help="Help specify tags separated by comma\n used in combination with --append, --modify or --delete\n")
+    parser.add_argument('-m', '--modify', nargs='+',help="Modify existing bookmark URL\n Takes URL [title] [description]\n if no bookmark found, returns error\n")
+    parser.add_argument('-d', '--delete', nargs='?',const='?',help="Delete bookmark URL\n Only takes URL as argument\n")
+    parser.add_argument('-s','--search',nargs='?',const='?',help="Searches record by URL. If --tags specified, will search based tags")
+    parser.add_argument('--append',nargs='?',const='?',help="Appends tags specified in --tags to URL")
+    parser.add_argument('--ai',action='store_const',const=True,help="Automatically imports from Firefox and Chrome. Prompts for yes or no")
+    parser.add_argument('--export',nargs='?',const='bukmarks.htm',help="Exports bookmarks to Firefox formatted HTML file. Accepts filename to be written. Default is bukmarks.htm")
 
     return parser.parse_args(args)
 
@@ -723,7 +722,13 @@ def main():
         if len(args.add) == 3:
             desc = args.add[2]
             print(desc)
-        bukdb.add_bookmark_db(url,title,desc)
+
+        if args.tags is not None:
+            tag_str = ','.join(tags_in)
+            bukdb.add_bookmark_db(url,title,tag_str,desc)
+        else:
+            bukdb.add_bookmark_db(url, title, desc)
+
 
     if args.modify is not None:
         url,title,desc = args.modify[0],'',''
