@@ -21,6 +21,13 @@ class TestImports(unittest.TestCase):
         self.chrome_bm = self.bukmarker.ret_chrome_bookmarks(self.bukmarker.read_json_bookmarks())
         logging.basicConfig(filename='bukmarker.log', level=logging.DEBUG)
 
+        # testing bookmark
+        if self.bukmarker.search_by_url("www.whothat.com") == -1:
+            self.bukmarker.add_bookmark_db("www.whothat.com")
+
+        if self.bukmarker.search_by_url("www.google.com") == -1:
+            self.bukmarker.add_bookmark_db("www.google.com")
+
     def tearDown(self):
         pass
 
@@ -97,14 +104,15 @@ class TestImports(unittest.TestCase):
         self.bukmarker.add_bookmark_db('www.google.com')
         ret = self.bukmarker.delete_bookmark_db('www.google.com')
         self.assertEqual(ret,'www.google.com')
+        self.bukmarker.add_bookmark_db('www.google.com')
 
     def test_modify_all_param_bookmark(self):
         """
         Modify a bookmark
         :return:
         """
-        ret = self.bukmarker.modify_bookmark_db("www.google.com","The search engine of the internet","search,google,query","No description required")
-        self.assertEqual(ret,"www.google.com")
+        ret = self.bukmarker.modify_bookmark_db("www.whothat.com","The address book everyone wants","whois,identity","No description required")
+        self.assertEqual(ret,"www.whothat.com")
 
     def test_modify_title_bookmark(self):
         """
@@ -158,6 +166,7 @@ class TestImports(unittest.TestCase):
         tests by deleting tags
         :return:
         """
+
         tags_to_delete = "google,larry,sergey"
         ret = self.bukmarker.delete_tags("www.google.com",tags_to_delete)
         self.assertEqual(ret,"www.google.com")
@@ -176,6 +185,7 @@ class TestImports(unittest.TestCase):
 
         """
         ret = self.bukmarker.search_by_url("www.google.com")
+        self.assertNotEqual(ret,-1)
         self.assertEquals(ret['url'],'www.google.com')
         self.bukmarker.print_rec(ret)
 
@@ -232,6 +242,14 @@ class TestImports(unittest.TestCase):
         ret_prof_dir = bukmarker.get_firefox_profile_dir("C:\\Users\\Devesh\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\")
 
         self.assertEqual(ret_prof_dir,main_ff_profile_dir)
+
+
+    @unittest.skip("Not decided what to do yet")
+    def test_auto_import(self):
+        '''
+
+        '''
+        self.bukmarker.auto_import()
 
 #temporary
 if __name__ == "main":
