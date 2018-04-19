@@ -26,7 +26,7 @@ class TestImports(unittest.TestCase):
             self.bukmarker.add_bookmark_db("www.whothat.com")
 
         if self.bukmarker.search_by_url("www.google.com") == -1:
-            self.bukmarker.add_bookmark_db("www.google.com")
+            self.bukmarker.add_bookmark_db("www.google.com",tags="search,pagerank")
 
     def tearDown(self):
         pass
@@ -217,8 +217,8 @@ class TestImports(unittest.TestCase):
         Tests if the tags are searched correctly
 
         """
-        mock_or_tags = ['|','query','bm']
-        mock_and_tags = ['+','query','search']
+        mock_or_tags = ['|','search','bm']
+        mock_and_tags = ['+','pagerank','search']
         retor = self.bukmarker.search_by_tags(mock_or_tags)
         retand = self.bukmarker.search_by_tags(mock_and_tags)
         self.assertEqual(2,len(retor))
@@ -250,6 +250,24 @@ class TestImports(unittest.TestCase):
 
         '''
         self.bukmarker.auto_import()
+
+
+    def test_print_rec(self):
+        '''
+        Print example record without exceptions
+        '''
+        rec = self.bukmarker.fetch_bm("www.google.com")
+        self.bukmarker.print_rec(rec)
+
+    def test_fetch_single_bm(self):
+        ''''
+        Fetch a non-existent and existing bookmark
+        '''
+
+        non_existing_url  = "www.fakegoogle.com"
+        rec = self.bukmarker.fetch_bm(non_existing_url)
+        self.assertIsInstance(rec,type(None))
+
 
 #temporary
 if __name__ == "main":
