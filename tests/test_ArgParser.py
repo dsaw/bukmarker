@@ -81,11 +81,14 @@ class ArgParserTest(unittest.TestCase):
 
     def test_failing_exp(self):
         '''
-
+        test unrecognized arguments which should fail
         :return:
         '''
-        argv = ['--export', 'yesman.html', '--ai']
-        
+
+        with self.assertRaises(SystemExit):
+            argv = ['--expot', '--ai']
+            ns = parse_args(argv)
+        #self.assertEqual('',ns.export)
 
 
 
