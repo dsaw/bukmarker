@@ -125,6 +125,24 @@ class BukmarkerDB():
         else:
             return url
 
+    def fetch_bm(self,url):
+        """
+         Fetch a single bookmark and return it
+        """
+        if url is None:
+            logger.error("url is blank")
+            return -1
+
+        try:
+            self.cursor.execute("SELECT * FROM bookmarks WHERE url = ? LIMIT 1;",(url,))
+            row = self.cursor.fetchone()
+
+        except Exception as e:
+            logger.exception("{}".format(e))
+            return -1
+
+        return row
+
     # TODO: option to replace existing bookmark
     def add_bookmark_db(self,url,title="", tags="", description="", delay_commit=False):
         """"
@@ -417,6 +435,10 @@ class BukmarkerDB():
         :param row: Sqlite3 row object
         :return:
         """
+        if row is None:
+            print("\nNo such row exists\n")
+            logger.debug(" Row is empty")
+            return
 
         print("url {0:30}".format(row["url"]))
         print("- {0}".format(row["title"]))
@@ -694,7 +716,7 @@ def parse_args(args):
     parser.add_argument('--append',nargs='?',const='?',help="Appends tags specified in --tags to URL")
     parser.add_argument('--ai',action='store_const',const=True,help="Automatically imports from Firefox and Chrome. Prompts for yes or no")
     parser.add_argument('--export',nargs='?',const='bukmarks.htm',help="Exports bookmarks to Firefox formatted HTML file. Accepts filename to be written. Default is bukmarks.htm")
-
+    parser.add_argument('-l',nargs='+',help="Lists bookmarks if it exists. ")
     return parser.parse_args(args)
 
 def main():
@@ -705,7 +727,7 @@ def main():
     arglist = sys.argv[1:]
 
     args = parse_args(arglist)
-    print(args)
+
 
     bukdb = BukmarkerDB()
 
@@ -775,6 +797,12 @@ def main():
     if args.export is not None:
         filename = args.export
         bukdb.exportdb(filename)
+
+    if args.l is not None:
+        bookmarks = args.l
+        for bm in bookmarks:
+            rec = bukdb.fetch_bm(bm)
+            bukdb.print_rec(rec)
 
 
 
