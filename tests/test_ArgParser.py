@@ -20,6 +20,15 @@ class ArgParserTest(unittest.TestCase):
         ns = parse_args(argv)
         self.assertEqual(ns.delete,'example.com')
 
+    def test_search(self):
+        '''
+        Check url of search is correct
+        :return:
+        '''
+
+        argv = ['--search','exam.com']
+        ns = parse_args(argv)
+        self.assertEqual(ns.search, 'exam.com')
 
     def test_add_tags(self):
         '''
