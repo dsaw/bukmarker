@@ -11,6 +11,16 @@ class ArgParserTest(unittest.TestCase):
     def setUp(self):
         self.parser = create_parser()
 
+    def test_delete(self):
+        '''
+        Check url of delete is correct
+        :return:
+        '''
+        argv = ['--delete', 'example.com']
+        ns = parse_args(argv)
+        self.assertEqual(ns.delete,'example.com')
+
+
     def test_add_tags(self):
         '''
 
