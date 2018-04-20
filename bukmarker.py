@@ -175,6 +175,7 @@ class BukmarkerDB():
               );
         """,(url,title,tags,description,nowtime))
 
+        print("New bookmark {} successfully added".format(url))
         if not delay_commit:
             self.conn.commit()
 
@@ -297,6 +298,7 @@ class BukmarkerDB():
             self.cursor.execute(query,(final_tags_str,datetime.datetime.now(),url))
             if self.cursor.rowcount == 1:
                 logger.debug("bookmark updated")
+                print("Bookmark {} successfully updated".format(url))
                 self.conn.commit()
         else:
             logger.error("No such bookmark exists")
@@ -352,8 +354,13 @@ class BukmarkerDB():
         self.cursor.execute(query,(url,))
         results = self.cursor.fetchone()
         if results:
+
             logger.debug(tuple(results))
+            print("Search results of {} are".format(url))
+            self.print_rec(results)
             return results
+
+        print("No bookmark found.")
         return -1
 
     def parse_tags(self,keywords=[]):
@@ -415,6 +422,7 @@ class BukmarkerDB():
         (taglist,searchop) = self.prep_tags(tags)
 
         search_query = r''
+
         def regexp(y,x,search = re.search):
             return 1 if search(y,x) else 0
         self.conn.create_function('regexp',2,regexp)
@@ -617,7 +625,7 @@ class BukmarkerDB():
             outfp.write(outs)
 
         outfp.close()
-        print('{} exported'.format(count))
+        print('{} bookmarks exported successfully'.format(count))
         return count
 
     @property
@@ -669,6 +677,8 @@ class BukmarkerDB():
         resp = input('Import from firefox bookmarks?(Y/n)')
         if resp == 'y':
             self.load_firefox_bookmarks(FF_DB_PATH)
+
+        print("Import is complete")
 
 
 def get_firefox_profile_dir(profiles_dir):
@@ -723,11 +733,9 @@ def main():
     '''
     Command line front end
     '''
-
     arglist = sys.argv[1:]
 
     args = parse_args(arglist)
-
 
     bukdb = BukmarkerDB()
 
@@ -751,7 +759,6 @@ def main():
         else:
             bukdb.add_bookmark_db(url, title, desc)
 
-
     if args.modify is not None:
         url,title,desc = args.modify[0],'',''
         print(url)
@@ -764,9 +771,8 @@ def main():
         bukdb.modify_bookmark_db(url,title,description=desc)
 
     if args.delete is not None:
-
+        url = args.delete
         if args.tags is None:
-            url = args.delete[0]
             res = bukdb.delete_bookmark_db(url)
             print('Deleted url {} status {}'.format(url,res))
         else:
@@ -775,8 +781,9 @@ def main():
 
     if args.search is not None:
         if args.tags is None:
-            url = args.search[0]
-            print('To search {}'.format(url))
+            url = args.search
+            print('Searching for {}...'.format(url))
+            bukdb.search_by_url(url)
         else:
             res = bukdb.search_by_tags(args.tags)
             print(res)
