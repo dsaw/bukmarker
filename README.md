@@ -77,6 +77,11 @@ $ python bukmarker.py --export
 302 bookmarks exported successfully
 ```
 
+## Meta
 
+Devesh Sawant – [@WhoSawDevesh](https://twitter.com/WhoSawDevesh)
+Distributed under the MIT license.
+
+Inspired from [Buku](https://github.com/jarun/Buku)
 
 
