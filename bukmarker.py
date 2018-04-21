@@ -401,7 +401,7 @@ class BukmarkerDB():
         :return: (taglist,searchop)
         """
         searchop = taglist[0]
-        if '+' in taglist and '|' in taglist:
+        if '+' in taglist and ',' in taglist:
             logger.error("Both and & are not allowed")
             return -1
 
@@ -413,7 +413,7 @@ class BukmarkerDB():
 
     def search_by_tags(self,tags):
         """
-        Searches record by tags
+        Searches record by tags and prints them
         Uses regex
         :param tags: list of tags initiated  by either | or +
         :return: list of results
@@ -434,7 +434,12 @@ class BukmarkerDB():
             wrappedtags = map( lambda s: r'(?=' + s + r')',taglist)
             search_query = r'|'.join(wrappedtags)
 
-        res = self.cursor.execute('SELECT url,title FROM bookmarks WHERE tags REGEXP ?', (search_query,))
+        res = self.cursor.execute('SELECT url,title,tags,description FROM bookmarks WHERE tags REGEXP ?', (search_query,))
+
+        for row in res:
+            self.print_rec(row)
+            print("===\n")
+
         return res.fetchall()
 
     def print_rec(self,row):
@@ -583,9 +588,9 @@ class BukmarkerDB():
 
         for bkey, bval in chrome_bm.items():
             if bval["type"] == "folder":
-                logging.info("Bookmark Folder - {0}".format(bkey))
+                logger.info("Bookmark Folder - {0}".format(bkey))
                 for bm in self.traverse_bm_folder(bval["children"], bval["name"]):
-                    logging.debug("{name} : {url} ".format(name=bm.get("name"), url=bm.get("url")))
+                    logger.debug("{name} : {url} ".format(name=bm.get("name"), url=bm.get("url")))
                     self.add_bookmark_db(bm.get("url"),bm.get("name"))
                     count+=1
         return count
@@ -669,12 +674,12 @@ class BukmarkerDB():
 
 
 
-        resp = input('Import from google chrome bookmarks?(Y/n)')
+        resp = input('Import from google chrome bookmarks?(y/n)')
 
         if resp == 'y':
             self.load_chrome_bookmarks(GC_DB_PATH)
 
-        resp = input('Import from firefox bookmarks?(Y/n)')
+        resp = input('Import from firefox bookmarks?(y/n)')
         if resp == 'y':
             self.load_firefox_bookmarks(FF_DB_PATH)
 
@@ -741,7 +746,7 @@ def main():
 
     if args.tags is not None:
         (tags_in,search_op) = bukdb.prep_tags(args.tags)
-        print(' tags : ',tags_in)
+        logger.debug(' tags specified in command-line : {}'.format(tags_in))
 
     if args.add is not None:
         url,title,desc = args.add[0],'',''
