@@ -205,11 +205,11 @@ class TestImports(unittest.TestCase):
         """
 
         tags_str1 = ['+','a','b','b','c']
-        tags_str2 = "|,ant,aunt,ars,anderson".split(',')
-        tags_str3 = "|,an,+,2".split(',')
+        tags_str2 = ", ant aunt ars anderson".split(' ')
+        tags_str3 = ", an + 2".split(' ')
 
         self.assertEqual('+',self.bukmarker.prep_tags(tags_str1)[1])
-        self.assertEqual('|', self.bukmarker.prep_tags(tags_str2)[1])
+        self.assertEqual(',', self.bukmarker.prep_tags(tags_str2)[1])
         self.assertEqual(-1, self.bukmarker.prep_tags(tags_str3))
 
     def test_search_tags(self):
@@ -217,7 +217,7 @@ class TestImports(unittest.TestCase):
         Tests if the tags are searched correctly
 
         """
-        mock_or_tags = ['|','search','bm']
+        mock_or_tags = [',','search','bm']
         mock_and_tags = ['+','pagerank','search']
         retor = self.bukmarker.search_by_tags(mock_or_tags)
         retand = self.bukmarker.search_by_tags(mock_and_tags)
