@@ -9,15 +9,16 @@ Bukmarker can add, update, delete and search bookmarks quickly from the command 
 
 ## Usage example
 
-Adding bookmarks is simple, use --add. Optionally, tags and description can be specified.
+Adding bookmarks is simple, use --add. Optionally title,tags and description can be specified.
 
-`$ python bukmarker.py --add www.another-site.com `
+`$ python bukmarker.py --add www.another-site.com --title another site --desc just some site`
 
 Editing an already stored bookmark is done similarly.
+If title is not specifed, bukmarker will automatically fetch it for you. 
 
 `$ python bukmarker.py --modify www.another-site.com anotherSite `
 
-Search need an URL only. 
+Search needs an URL only.  
  
  ```
  $ python bukmarker.py --search https://www.skytorrents.in/
