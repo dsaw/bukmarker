@@ -1,4 +1,4 @@
-# bukmarker
+# Bukmarker
 > Command line integrated bookmark manager 
 
 Bukmarker can add, update, delete and search bookmarks quickly from the command line. It also can automatically import bookmarks from Chrome and Firefox browsers. It supports exporting bookmarks to various formats.
@@ -80,7 +80,7 @@ $ python bukmarker.py --export
 ## Meta
 
 Devesh Sawant – [@WhoSawDevesh](https://twitter.com/WhoSawDevesh)
-Distributed under the MIT license.
+Distributed under the GPLv3 license.
 
 Inspired from [Buku](https://github.com/jarun/Buku)
 
