@@ -36,10 +36,21 @@ class ArgParserTest(unittest.TestCase):
         :return:
         '''
 
-        argv = ['--add','example.com','it\'an examples' ]
+        argv = ['--add','example.com','--title','it\'an','examples' ]
         ns = parse_args(argv)
-        self.assertEqual(ns.add[0],'example.com')
-        self.assertEqual(ns.add[1],'it\'an examples')
+        self.assertEqual(ns.add,'example.com')
+        self.assertEqual(ns.title[1],'examples')
+
+    def test_modify_tags_with_options(self):
+        '''
+
+        :return:
+        '''
+        argv = ['--modify','example.com','--title','new','example', '--desc', 'Just','kidding' ]
+        ns = parse_args(argv)
+        self.assertEqual(ns.modify, 'example.com')
+        self.assertEqual(ns.title[0], 'new')
+        self.assertEqual(ns.desc[1],'kidding')
 
     def test_search_tags(self):
         '''
@@ -58,7 +69,7 @@ class ArgParserTest(unittest.TestCase):
         argv = ['--tags','larry','sergey','--append','www.google.com']
         ns = parse_args(argv)
         self.assertListEqual(['larry','sergey'],ns.tags)
-        self.assertEqual('www.google.com',ns.append[0])
+        self.assertEqual('www.google.com',ns.append)
 
     def test_delete_tags(self):
         '''

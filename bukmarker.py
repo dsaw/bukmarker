@@ -219,7 +219,7 @@ class BukmarkerDB():
 
         query = "UPDATE bookmarks SET "
         params = ()
-        to_update = False
+        to_update = True
 
         if url is None:
             # TODO automatically fetch url
@@ -229,7 +229,7 @@ class BukmarkerDB():
         if title is not None:
             query += "title = ?, "
             params += (title,)
-            to_update = True
+            to_update = False
 
         if tags_in is not None:
             # TODO handle various input string anomalies
@@ -237,21 +237,19 @@ class BukmarkerDB():
 
             query += "tags = ?, "
             params += (tags_in,)
-            to_update = True
 
         if description is not None:
             query += "description = ?, "
             params += (description,)
-            to_update = True
 
-        if not to_update:
+        if to_update:
             title = self.fetch_title_bookmark("https://" + url)
             if title == -1:
                 print("Unable to fetch title...")
                 return -1
             query += "title = ?, "
             params += (title,)
-            to_update = True
+
         nowtime = datetime.datetime.now()
 
         params += (nowtime,url)
@@ -415,7 +413,7 @@ class BukmarkerDB():
         """
         Searches record by tags and prints them
         Uses regex
-        :param tags: list of tags initiated  by either | or +
+        :param tags: list of tags initiated  by either , or +
         :return: list of results
         """
 
@@ -435,12 +433,11 @@ class BukmarkerDB():
             search_query = r'|'.join(wrappedtags)
 
         res = self.cursor.execute('SELECT url,title,tags,description FROM bookmarks WHERE tags REGEXP ?', (search_query,))
-
-        for row in res:
+        resl = res.fetchall()
+        for row in resl:
             self.print_rec(row)
             print("===\n")
-
-        return res.fetchall()
+        return resl
 
     def print_rec(self,row):
         """
@@ -722,17 +719,24 @@ def parse_args(args):
     parser = create_parser()
     # add args
     # add with url,title,description
-    parser.add_argument('-a', '--add', nargs='+', help="Adds new bookmark\n takes URL [title] [description] \n tags specified using -t \n")
+    parser.add_argument('-a', '--add', nargs='?', help="Adds new bookmark\n takes URL [title] [description] \n tags specified using -t \n")
     # tags
     parser.add_argument('-t', '--tags', nargs='+',help="Help specify tags separated by comma\n used in combination with --append, --modify or --delete\n")
-    parser.add_argument('-m', '--modify', nargs='+',help="Modify existing bookmark URL\n Takes URL [title] [description]\n if no bookmark found, returns error\n")
+    parser.add_argument('-m', '--modify', nargs='?',help="Modify existing bookmark URL\n Takes URL [title] [description]\n if no bookmark found, returns error\n")
     parser.add_argument('-d', '--delete', nargs='?',const='?',help="Delete bookmark URL\n Only takes URL as argument\n")
     parser.add_argument('-s','--search',nargs='?',const='?',help="Searches record by URL. If --tags specified, will search based tags")
     parser.add_argument('--append',nargs='?',const='?',help="Appends tags specified in --tags to URL")
     parser.add_argument('--ai',action='store_const',const=True,help="Automatically imports from Firefox and Chrome. Prompts for yes or no")
     parser.add_argument('--export',nargs='?',const='bukmarks.htm',help="Exports bookmarks to Firefox formatted HTML file. Accepts filename to be written. Default is bukmarks.htm")
     parser.add_argument('-l',nargs='+',help="Lists bookmarks if it exists. ")
+
+    # optional arg
+    parser.add_argument('--title',nargs='+',help="To enter the title. Should be space separated")
+    parser.add_argument('--desc',nargs='+',help="To enter the description. Should be space separated")
+
     return parser.parse_args(args)
+
+
 
 def main():
     '''
@@ -746,34 +750,45 @@ def main():
 
     if args.tags is not None:
         (tags_in,search_op) = bukdb.prep_tags(args.tags)
-        logger.debug(' tags specified in command-line : {}'.format(tags_in))
+        logger.debug(' tags specified in command-line : {}'.format(args.tags))
 
     if args.add is not None:
-        url,title,desc = args.add[0],'',''
+        url,title,desc = args.add,'',''
         print(url)
-        if len(args.add) >= 2:
-            title = args.add[1]
+        if args.title is not None:
+            title = ' '.join(args.title)
             print(title)
-        if len(args.add) == 3:
-            desc = args.add[2]
+        else:
+            title = bukdb.fetch_title_bookmark(url)
+            if title == -1:
+                print("Title could not be fetched.")
+                title = ''
+
+        if args.desc is not None:
+            desc = ' '.join(args.desc)
             print(desc)
 
         if args.tags is not None:
-            tag_str = ','.join(tags_in)
+            tag_str = ','.join(args.tags)
+            # tags with no search op ^
             bukdb.add_bookmark_db(url,title,tag_str,desc)
         else:
-            bukdb.add_bookmark_db(url, title, desc)
+            bukdb.add_bookmark_db(url, title, description=desc)
 
     if args.modify is not None:
-        url,title,desc = args.modify[0],'',''
+        url,title,desc = args.modify,None,None
         print(url)
-        if len(args.modify) >= 2:
-            title = args.modify[1]
+        if args.title is not None:
+            title = ' '.join(args.title)
             print(title)
-        if len(args.modify) == 3:
-            desc = args.modify[2]
+        if args.desc is not None:
+            desc = ' '.join(args.desc)
             print(desc)
-        bukdb.modify_bookmark_db(url,title,description=desc)
+        if args.tags is not None:
+            tag_str = ','.join(args.tags)
+            bukdb.modify_bookmark_db(url,title,tag_str,description=desc)
+        else:
+            bukdb.modify_bookmark_db(url,title,description=desc)
 
     if args.delete is not None:
         url = args.delete

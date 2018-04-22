@@ -119,7 +119,7 @@ class TestImports(unittest.TestCase):
         Modify only title
         :return:
         """
-        ret = self.bukmarker.modify_bookmark_db("www.google.com", "Googleplex")
+        ret = self.bukmarker.modify_bookmark_db("www.google.com", "Googleplex",tags_in="search,pagerank")
         self.assertEqual(ret, "www.google.com")
 
     def test_modify_fetch_title(self):
