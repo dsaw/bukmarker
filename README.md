@@ -1,15 +1,25 @@
 # Bukmarker
 > Command line integrated bookmark manager 
 
+  [![Build Status][travis-image]][travis-url]
+
 Bukmarker can add, update, delete and search bookmarks quickly from the command line. It also can automatically import bookmarks from Chrome and Firefox browsers. It supports exporting bookmarks to various formats.
 
 ## Installation
 
+### Dependencies
+
+| Feature | Dependency |
+| --- | --- |
+| Scripting language | Python 3.6+ |
+| HTTP(S) | urllib |
+| Database | sqlite3 |
+| Import browser exported html | beautifulsoup4 |
 
 
 ## Usage example
 
-Adding bookmarks is simple, use --add. Optionally title,tags and description can be specified.
+Adding bookmarks is simple, use `--add`. Optionally title, tags and description can be specified.
 
 `$ python bukmarker.py --add www.another-site.com --title another site --desc just some site`
 
@@ -18,8 +28,8 @@ If title is not specifed, bukmarker will automatically fetch it for you.
 
 `$ python bukmarker.py --modify www.another-site.com anotherSite `
 
-Search needs an URL only.  
- 
+Search needs an URL only (Note that **-** is **title**, **>** are **tags**, **+** is the **description**) .
+
  ```
  $ python bukmarker.py --search https://www.skytorrents.in/
 Searching for https://www.skytorrents.in/...
@@ -30,7 +40,7 @@ url https://www.skytorrents.in/
 +
 ```
 
-Searching using tags can also be done. To return bookmarks with ANY of the tags, pass in a tag list starting with , . For bookmarks with ALL of the tags, pass in + respectively.
+Searching using tags can also be done. To return bookmarks with **ANY** of the tags, pass in a tag list starting with **,** . For bookmarks with **ALL** of the tags, pass in **+** respectively.
 
 ``` 
 $ python bukmarker.py --search --tags , django pagerank
@@ -85,4 +95,7 @@ Distributed under the GPLv3 license.
 
 Inspired from [Buku](https://github.com/jarun/Buku)
 
+<!-- Markdown link & img dfn's -->
 
+[travis-image]: https://img.shields.io/travis/dbader/node-datadog-metrics/master.svg?style=flat-square
+[travis-url]: https://travis-ci.org/dbader/node-datadog-metrics
