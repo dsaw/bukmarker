@@ -97,5 +97,5 @@ Inspired from [Buku](https://github.com/jarun/Buku)
 
 <!-- Markdown link & img dfn's -->
 
-[travis-image]: https://img.shields.io/travis/dbader/node-datadog-metrics/master.svg?style=flat-square
-[travis-url]: https://travis-ci.org/dbader/node-datadog-metrics
+[travis-image]: https://travis-ci.org/dsaw/bukmarker.svg?branch=master
+[travis-url]: https://travis-ci.org/dsaw/bukmarker#
