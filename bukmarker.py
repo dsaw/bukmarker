@@ -705,7 +705,10 @@ def create_parser():
     :return:
     '''
     parser = argparse.ArgumentParser(usage='''bukmarker [OPTIONS] [KEYWORD [KEYWORD ...]]''',
-                                     description='''bukmarker - command line bookmark manager that makes organizing your bookmarks easy''')
+                                     description='''bukmarker - command line bookmark manager that makes organizing your bookmarks easy''',
+                                     formatter_class=argparse.RawTextHelpFormatter,
+                                     epilog='''symbol   what it means\n  -        title\n  >        tags\n  +        description''')
+
     return parser
 
 
@@ -733,6 +736,8 @@ def parse_args(args):
     # optional arg
     parser.add_argument('--title',nargs='+',help="To enter the title. Should be space separated")
     parser.add_argument('--desc',nargs='+',help="To enter the description. Should be space separated")
+
+
 
     return parser.parse_args(args)
 
