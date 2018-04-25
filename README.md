@@ -16,6 +16,9 @@ Bukmarker can add, update, delete and search bookmarks quickly from the command 
 | Database | sqlite3 |
 | Import browser exported html | beautifulsoup4 |
 
+To install package dependencies, run pip3.
+
+`$ pip install beautifulsoup4`
 
 ## Usage example
 
