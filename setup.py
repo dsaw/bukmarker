@@ -8,6 +8,8 @@ setup(name='bukmarker',
       author_email='devesh47cool@gmail.com',
       license='GPLv3',
       install_requires=[
-        'beautifulsoup4']
+        'beautifulsoup4'],
+      test_suite='nose.collector',
+      tests_require=['nose'],
       zip_safe=False
 )
