@@ -18,7 +18,59 @@ class TestImports(unittest.TestCase):
         self.bukmarker = bukmarker.BukmarkerDB()
         logfile_path = os.path.abspath(os.path.dirname(os.path.__file__))
         logfilename = os.path.join(logfile_path, "..\bukmarker.log")
-        self.chrome_bm = self.bukmarker.ret_chrome_bookmarks(self.bukmarker.read_json_bookmarks())
+        bm_json = {
+            "checksum": "16b461a69b7d68e934ab650b6d0fb647",
+            "roots": {
+                "bookmark_bar": {
+                    "children": [
+                        {
+                            "date_added": "13126525897558343",
+                            "id": "68",
+                            "meta_info": {
+                                "last_visited_desktop": "13168927771220185"
+                            },
+                            "name": "Technology Archives - Five Books",
+                            "type": "url",
+                            "url": "http://fivebooks.com/tag/technology/"
+                        },
+                        { "children": [ {
+                            "date_added": "13129454063033048",
+                             "id": "129",
+                             "meta_info": {
+                                "last_visited_desktop": "13153436950213097"
+                                },
+                            "name": "Excess XSS: A comprehensive tutorial on cross-site scripting",
+                            "type": "url",
+                            "url": "https://excess-xss.com/"
+            }, {
+               "date_added": "13128973125269871",
+               "id": "114",
+               "meta_info": {
+                  "last_visited_desktop": "13153484724895511"
+               },
+               "name": "Cracking 12 Character & Above Passwords",
+               "type": "url",
+               "url": "http://www.netmux.com/blog/cracking-12-character-above-passwords"
+            }],
+                        "date_added": "13129454086976852",
+                        "date_modified": "13160843857449902",
+                        "id": "130",
+                        "name": "security_hackers",
+                        "type": "folder"
+                        }
+                    ],
+
+                    "date_added": "13120993414684871",
+                    "date_modified": "13166367764503473",
+                    "id": "1",
+                    "name": "Bookmarks bar",
+                    "type": "folder"
+                }
+            }
+
+        }
+
+        self.chrome_bm = self.bukmarker.ret_chrome_bookmarks(bm_json)
         logging.basicConfig(filename='bukmarker.log', level=logging.DEBUG)
 
         # testing bookmark
@@ -44,7 +96,7 @@ class TestImports(unittest.TestCase):
                 for bm in self.bukmarker.traverse_bm_folder(bval["children"], bval["name"]):
                     logging.debug("{name} : {url} ".format(name=bm.get("name"), url=bm.get("url")))
 
-        self.assertGreater(len(bm_list),0)
+        self.assertEqual(len(bm_list),3)
 
     def test_chrome_import(self):
         """
