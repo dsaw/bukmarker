@@ -20,6 +20,13 @@ To install package dependencies, run pip3.
 
 `$ pip install beautifulsoup4`
 
+Clone bukmarker from github as usual or download as a zip file.
+
+To run tests, cd to project root first and type:
+
+`$ python setup.py test`
+
+
 ## Usage example
 
 Adding bookmarks is simple, use `--add`. Optionally title, tags and description can be specified.
@@ -94,6 +101,7 @@ $ python bukmarker.py --export
 ## Meta
 
 Devesh Sawant – [@WhoSawDevesh](https://twitter.com/WhoSawDevesh)
+
 Distributed under the GPLv3 license.
 
 Inspired from [Buku](https://github.com/jarun/Buku)
