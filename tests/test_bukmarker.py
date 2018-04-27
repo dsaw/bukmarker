@@ -6,6 +6,7 @@ import logging
 #logging.basicConfig(filename='bukmarker.log', level=logging.DEBUG)
 import json
 import sqlite3
+import sys
 
 import bukmarker
 # TODO: need to write better tests!
@@ -16,6 +17,7 @@ class TestImports(unittest.TestCase):
     def setUp(self):
         # relative logfile path
         self.bukmarker = bukmarker.BukmarkerDB()
+        self.bukmarker.create_bookmark_db()
         logfile_path = os.path.abspath(os.path.dirname(os.path.__file__))
         logfilename = os.path.join(logfile_path, "..\bukmarker.log")
         bm_json = {
@@ -80,6 +82,9 @@ class TestImports(unittest.TestCase):
         if self.bukmarker.search_by_url("www.google.com") == -1:
             self.bukmarker.add_bookmark_db("www.google.com",tags="search,pagerank")
 
+        if self.bukmarker.search_by_url("www.digg.com") == -1:
+            self.bukmarker.add_bookmark_db("www.digg.com",title="Front page bookmarks" ,tags="bm,pagerank")
+
     def tearDown(self):
         pass
 
@@ -98,6 +103,7 @@ class TestImports(unittest.TestCase):
 
         self.assertEqual(len(bm_list),3)
 
+    @unittest.skipUnless(sys.platform.startswith("win"), "requires Windows")
     def test_chrome_import(self):
         """
         Test case for importing bookmarks from chrome
@@ -106,6 +112,7 @@ class TestImports(unittest.TestCase):
         count_entries = self.bukmarker.load_chrome_bookmarks()
         self.assertGreater(count_entries, 0)
 
+    @unittest.skipUnless(sys.platform.startswith("win"), "requires Windows")
     def test_firefox_import(self):
         """
         Test case for importing bookmarks from firefox places.sqlite file
@@ -114,6 +121,7 @@ class TestImports(unittest.TestCase):
         bm = self.bukmarker.read_firefox_bookmarks_db()
         self.assertGreater(len(bm), 0)
 
+    @unittest.skipUnless(sys.platform.startswith("win"), "requires Windows")
     def test_dbfile_windows(self):
         """
         Test case for checking windows database directory
@@ -287,6 +295,8 @@ class TestImports(unittest.TestCase):
         count = self.bukmarker.count_bookmarks
         self.assertEqual(count,exported_count)
 
+
+    @unittest.skipUnless(sys.platform.startswith("win"), "requires Windows")
     def test_firefox_profile_subfolders(self):
         '''
         '''

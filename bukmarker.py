@@ -87,9 +87,6 @@ class BukmarkerDB():
         :return:
         """
         try:
-            self.conn = sqlite3.connect(self.dbfile, detect_types=sqlite3.PARSE_DECLTYPES|sqlite3.PARSE_COLNAMES)
-            self.cursor = self.conn.cursor()
-
             self.cursor.execute("""create table  IF NOT EXISTS bookmarks (
                                 url text PRIMARY KEY,
                                 title text NOT NULL,
@@ -351,7 +348,7 @@ class BukmarkerDB():
         query = "SELECT * FROM bookmarks WHERE url = ? "
         self.cursor.execute(query,(url,))
         results = self.cursor.fetchone()
-        if results:
+        if results is not None:
 
             logger.debug(tuple(results))
             print("Search results of {} are".format(url))
