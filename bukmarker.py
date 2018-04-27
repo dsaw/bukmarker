@@ -472,7 +472,7 @@ class BukmarkerDB():
             logger.error("{}, {}".format(*e.reason))
             return -1
         else:
-            bm_soup = BeautifulSoup(bm_req,"lxml")
+            bm_soup = BeautifulSoup(bm_req,"html.parser")
             return bm_soup.title.string
 
     def read_firefox_bookmarks_db(self, dbfile="C:\\Users\\Devesh\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\x94qotzr.default-1509035816333\\places.sqlite"):
