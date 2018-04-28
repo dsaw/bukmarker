@@ -86,6 +86,7 @@ class TestImports(unittest.TestCase):
             self.bukmarker.add_bookmark_db("www.digg.com",title="Front page bookmarks" ,tags="bm,pagerank")
 
     def tearDown(self):
+        self.bukmarker.close()
         pass
 
     def test_traverse_folder(self):

@@ -58,6 +58,12 @@ class BukmarkerDB():
         self.conn.row_factory = sqlite3.Row
         self.cursor = self.conn.cursor()
 
+    def close(self):
+
+        self.cursor.close()
+        self.conn.commit()
+        self.conn.close()
+
 
     @staticmethod
     def get_default_dbdir():
