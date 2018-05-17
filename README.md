@@ -102,6 +102,8 @@ $ python bukmarker.py --export
 
 Devesh Sawant – [@WhoSawDevesh](https://twitter.com/WhoSawDevesh)
 
+Blog post about [project](https://wp.me/p3i9xR-1D)
+
 Distributed under the GPLv3 license.
 
 Inspired from [Buku](https://github.com/jarun/Buku)
